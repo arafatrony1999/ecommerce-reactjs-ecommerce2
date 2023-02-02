@@ -1,16 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+
+import { userContext } from '../../customHooks/userContext';
+
 import bd from './../../assets/images/bd.png';
 import en from './../../assets/images/en.png';
 import logo from './../../assets/images/logo.svg';
+
 import { FaAngleDown, FaSearch, FaGooglePlay, FaPhoneVolume } from "react-icons/fa";
 import { CiShoppingCart, CiSearch } from "react-icons/ci";
 import { FiRefreshCw } from "react-icons/fi";
 import { MdKeyboardBackspace } from "react-icons/md";
+
 import { NavLink } from 'react-router-dom';
 
 const HEADER = () => {
     const [allLang, setAllLang] = useState(false);
     const [toggle, setToggle] = useState(true);
+
+    const user = useContext(userContext);
 
     const handleAllLang = () => {
         setAllLang(!allLang);
@@ -21,6 +28,12 @@ const HEADER = () => {
     const handleNotToggle = () => {
         setToggle(true)
     }
+
+    const logout = () => {
+        localStorage.removeItem('auth');
+        window.location.replace('/login');
+    }
+    console.log(user);
 
     return (
         <header>
@@ -69,10 +82,17 @@ const HEADER = () => {
                     </div>
                     <div className="header-top-right">
                         <div className="header-top-right">
-                            <span>
-                                <NavLink to="login">Login</NavLink>
-                                <NavLink to="regestration">Regestration</NavLink>
-                            </span>
+                                {
+                                    user==="" ? 
+                                        <span>
+                                            <NavLink to="login">Login</NavLink>
+                                            <NavLink to="regestration">Regestration</NavLink>
+                                        </span> : 
+                                        <span>
+                                            <NavLink to="profile">My Profile</NavLink>
+                                            <button onClick={logout}>Logout</button>
+                                        </span>
+                                }
                         </div>
                     </div>
                 </div>

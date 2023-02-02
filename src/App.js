@@ -14,7 +14,6 @@ import './assets/css/profile.css';
 import Index from './routes';
 
 function App() {
-    // console.log(window.location.pathname)
   return (
     <div className="App">
       <Index />

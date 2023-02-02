@@ -18,7 +18,7 @@ const LOGINPAGE = () => {
     const [password, setPassword] = useState("");
 
     const location = useLocation();
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
 
     useEffect(() => {
         if(location.state==="Regestration Success"){
@@ -50,7 +50,8 @@ const LOGINPAGE = () => {
                 setFailed(true)
             }else{
                 localStorage.setItem('auth',JSON.stringify(data));
-                navigate('/profile');
+                // navigate('/profile');
+                window.location.replace('profile');
             }
         })
         .catch((error)=>{
