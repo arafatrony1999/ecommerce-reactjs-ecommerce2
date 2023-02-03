@@ -83,7 +83,7 @@ const HEADER = () => {
                     <div className="header-top-right">
                         <div className="header-top-right">
                                 {
-                                    user==="" ? 
+                                    user===null ? 
                                         <span>
                                             <NavLink to="login">Login</NavLink>
                                             <NavLink to="regestration">Regestration</NavLink>

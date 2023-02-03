@@ -19,7 +19,7 @@ import PROFILE from '../pages/PROFILE/PROFILE';
 
 const Index = () => {
 
-    const [user, setUser] = useState("");
+    const [user, setUser] = useState(null);
 
 
     useEffect(()=>{
@@ -53,9 +53,6 @@ const Index = () => {
         else{
             console.log("null");
         }
-
-
-
     },[]);
 
     return (

@@ -6,7 +6,7 @@ import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Alert from 'react-bootstrap/Alert';
 
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 const LOGINPAGE = () => {
     const [type, setType] = useState(false);
@@ -14,8 +14,8 @@ const LOGINPAGE = () => {
     const [success, setSuccess] = useState(false);
     const [failed, setFailed] = useState(false);
 
-    const [name, setName] = useState("");
-    const [password, setPassword] = useState("");
+    const [name, setName] = useState("arafat.rony123@gmail.com");
+    const [password, setPassword] = useState("12345678");
 
     const location = useLocation();
     // const navigate = useNavigate();
@@ -75,7 +75,7 @@ const LOGINPAGE = () => {
                 <div className="input-field-login">
                     {
                         type ?
-                        <input style={{paddingLeft: "10px"}} className='login-input' onChange={(e)=>{setName(e.target.value)}} type="text" placeholder='Email' />
+                        <input style={{paddingLeft: "10px"}} value={name} className='login-input' onChange={(e)=>{setName(e.target.value)}} type="text" placeholder='Email' />
                             :
                         <InputGroup className="login-input" style={{border:"none"}}>
                             <DropdownButton title="(BD) +880">
@@ -91,7 +91,7 @@ const LOGINPAGE = () => {
                 </div>
 
                 <div className="input-field-login">
-                    <input style={{paddingLeft: "10px"}} onChange={(e)=>{setPassword(e.target.value)}} className='login-input' type="password" placeholder='Password' />
+                    <input style={{paddingLeft: "10px"}} value={password} onChange={(e)=>{setPassword(e.target.value)}} className='login-input' type="password" placeholder='Password' />
                     <div className="login-other">
                         <div className="forget-pass">
                             <input type="checkbox" label="Check me out" />

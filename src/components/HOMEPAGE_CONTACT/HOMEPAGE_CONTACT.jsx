@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { userContext } from '../../customHooks/userContext';
 import contactBanner from './../../assets/images/contact-banner.jpg';
 
 const HOMEPAGECONTACT = () => {
+    const user = useContext(userContext);
     return (
         <div className='homepage-contact'>
             <div className="contact-form">
@@ -24,8 +26,12 @@ const HOMEPAGECONTACT = () => {
                         <label htmlFor="Product Description">Product Description</label>
                         <textarea name="desc" cols="30" rows="10"></textarea>
                     </div>
-
-                    <button type='submit'>Submit</button>
+                    {
+                        user===null ?
+                        <button style={{opacity: ".5"}} type='submit' disabled>Submit</button> :
+                        <button type='submit'>Submit</button>
+                    }
+                    
                 </form>
             </div>
             <div className="contact-banner">
