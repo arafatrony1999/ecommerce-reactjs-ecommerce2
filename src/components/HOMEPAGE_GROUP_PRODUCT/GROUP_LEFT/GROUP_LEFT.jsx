@@ -2,7 +2,6 @@ import React from 'react';
 import { BsChevronRight } from "react-icons/bs";
 import { Link } from 'react-router-dom';
 const GROUPLEFT = (props) => {
-
     var stylesLeft = "";
     var linkLeft = "";
     var stylesRight = "";
@@ -23,7 +22,7 @@ const GROUPLEFT = (props) => {
     return (
         <div className='group-left'>
             <div className="group-left-left" id={stylesLeft}>
-                <h3>Apparel, Textile and Garments</h3>
+                <h3>{props.products && props.products.cat_name}</h3>
                 <a id={linkLeft} href='/'>View All</a>
             </div>
             <div className="group-left-right" id={stylesRight}>
@@ -36,14 +35,14 @@ const GROUPLEFT = (props) => {
 
                 <div className="group-left-products">
                     {
-                        props.products.map((product, index) => {
+                        props.products && props.products.subcatagory.slice(0,6).map((product) => {
                             return(
-                                <Link key={index} to='/product' className="group-left-product">
+                                <Link key={product.id} to='/product' className="group-left-product">
                                     <div className="left-product-image">
-                                        <img src={product.img} alt="" />
+                                        <img src={product.image} alt="" />
                                     </div>
                                     <div className="left-product-title">
-                                        {product.title}
+                                        {product.name}
                                     </div>
                                 </Link>
                             )

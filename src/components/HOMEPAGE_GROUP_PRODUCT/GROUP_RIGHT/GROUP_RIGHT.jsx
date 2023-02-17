@@ -14,14 +14,14 @@ const GROUPRIGHT = (props) => {
             
             <div className="group-left-products">
                     {
-                        props.featured.map((product, index) => {
+                        props.featured && props.featured.map((product, index) => {
                             return(
                                 <Link key={index} to='/product' className="group-left-product">
                                     <div className="left-product-image">
-                                        <img src={product.img} alt="" />
+                                        <img src={product.image} alt="" />
                                     </div>
                                     <div className="left-product-title">
-                                        {product.price}
+                                        $ {product.price}.00
                                     </div>
                                 </Link>
                             )

@@ -36,6 +36,9 @@
 .catagories ul li a span:nth-child(2){
     padding-left: 10px;
 }
+.catagories ul li a span img{
+    width: 20px;
+}
 
 
 
@@ -257,7 +260,7 @@
     width: 70%;
     /* background-image: linear-gradient(90deg, #F187FB 0%, transparent 100%); */
     padding: 0 20px;
-    padding-right: 0;
+    /* padding-right: 0; */
 }
 #first-right{
     background-image: linear-gradient(90deg, #F187FB 0%, transparent 100%);
@@ -295,9 +298,14 @@
 .left-product-image{
     width: 100%;
     height: 80%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
 }
 .left-product-image img{
-    height: 100%;
+    padding: 10px;
+    width: 100%;
 }
 .left-product-title{
     height: 20%;

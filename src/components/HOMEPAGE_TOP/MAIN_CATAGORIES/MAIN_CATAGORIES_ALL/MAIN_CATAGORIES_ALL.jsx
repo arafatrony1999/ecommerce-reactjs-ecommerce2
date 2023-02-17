@@ -1,7 +1,7 @@
 import React from 'react';
-import { Fa500Px, FaAdn, FaAdversal, FaAmazonPay, FaAmazon, FaBlackberry } from "react-icons/fa";
+import { Link } from 'react-router-dom';
 
-const MAINCATAGORIESALL = () => {
+const MAINCATAGORIESALL = (props) => {
     return (
         <div className="main-catagories-all">
             <div className="main-catagory-top">
@@ -10,118 +10,20 @@ const MAINCATAGORIESALL = () => {
             </div>
             <div className="catagories">
                 <ul>
-                    <li>
-                        <a href="/">
-                            <span>
-                                <Fa500Px />
-                            </span>
-                            <span>Agriculture and Food</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="/">
-                            <span>
-                                <FaAdn />
-                            </span>
-                            <span>Computer, Software & Network</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="/">
-                            <span>
-                                <FaAdversal />
-                            </span>
-                            <span>Beauty and Personal Care</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="/">
-                            <span>
-                                <FaAmazonPay />
-                            </span>
-                            <span>Electrical and Electronics</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="/">
-                            <span>
-                                <FaAmazon />
-                            </span>
-                            <span>Furniture & Decorations</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="/">
-                            <span>
-                                <FaBlackberry />
-                            </span>
-                            <span>Health & Medical</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="/">
-                            <span>
-                                <Fa500Px />
-                            </span>
-                            <span>Agriculture and Food</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="/">
-                            <span>
-                                <FaAdn />
-                            </span>
-                            <span>Computer, Software & Network</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="/">
-                            <span>
-                                <FaAdversal />
-                            </span>
-                            <span>Beauty and Personal Care</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="/">
-                            <span>
-                                <FaAmazonPay />
-                            </span>
-                            <span>Electrical and Electronics</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="/">
-                            <span>
-                                <FaAmazon />
-                            </span>
-                            <span>Furniture & Decorations</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="/">
-                            <span>
-                                <FaBlackberry />
-                            </span>
-                            <span>Health & Medical</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="/">
-                            <span>
-                                <Fa500Px />
-                            </span>
-                            <span>Agriculture and Food</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="/">
-                            <span>
-                                <FaAdn />
-                            </span>
-                            <span>Computer, Software & Network</span>
-                        </a>
-                    </li>
+                    {
+                        props.catagories && props.catagories.map((data) => {
+                            return(
+                                <li key={data.id}>
+                                    <Link to="/catagories">
+                                        <span>
+                                            <img src={data.cat_image} alt="" />
+                                        </span>
+                                        <span>{data.cat_name}</span>
+                                    </Link>
+                                </li>
+                            )
+                        })
+                    }
                 </ul>
             </div>
         </div>

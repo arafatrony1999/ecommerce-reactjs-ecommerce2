@@ -19,25 +19,25 @@ const HOMEPAGEPRODUCTS = (props) => {
           {
             breakpoint: 1024,
             settings: {
-              slidesToShow: 3,
-              slidesToScroll: 3,
-              infinite: true,
-              dots: true
+                slidesToShow: 3,
+                slidesToScroll: 3,
+                infinite: true,
+                dots: true
             }
           },
           {
             breakpoint: 600,
             settings: {
-              slidesToShow: 2,
-              slidesToScroll: 2,
-              initialSlide: 2
+                slidesToShow: 2,
+                slidesToScroll: 2,
+                initialSlide: 2
             }
           },
           {
             breakpoint: 480,
             settings: {
-              slidesToShow: 2,
-              slidesToScroll: 1
+                slidesToShow: 2,
+                slidesToScroll: 1
             }
           }
         ]
@@ -51,14 +51,17 @@ const HOMEPAGEPRODUCTS = (props) => {
             <div className="product-carousel">
                 <Slider {...settings}>
                     {
-                        props.items.map((item, index) => {
+                        props.items && props.items.map((item, index) => {
                             return(
                                 <div key={index} className="product-container">
                                     <Link to='/product' className="product-card">
-                                        <div className="off-tag">
-                                            <span>OFF</span>
-                                            <span>50%</span>
-                                        </div>
+                                        { 
+                                            item.offers !==0 &&
+                                            <div className="off-tag">
+                                                <span>OFF</span>
+                                                <span>{item.discount && item.discount.discount_percent}%</span>
+                                            </div>
+                                        }
 
                                         <div className="hover-buttons">
                                             <button className="single-hover-btn">
@@ -70,16 +73,24 @@ const HOMEPAGEPRODUCTS = (props) => {
                                         </div>
 
                                         <div className="product-image">
-                                            <img src={item.img} alt="" />
+                                            <img src={item.image} alt="" />
                                         </div>
                                         <div className="product-details">
                                             <div className="product-price">
-                                                <div className="cut-price">
-                                                    <del>$ 172,450.00</del>
-                                                </div>
-                                                <div className="original-price">
-                                                    $ {item.mainPrice}.00
-                                                </div>
+                                                {
+                                                    item.offers===0 ? 
+                                                    <div style={{paddingLeft: "0"}} className="original-price">
+                                                        $ {item.price}.00
+                                                    </div> : 
+                                                    <>
+                                                        <div className="cut-price">
+                                                            <del>$ {item.price}.00</del>
+                                                        </div>
+                                                        <div className="original-price">
+                                                            $ {item.price - (item.price*(item.discount && item.discount.discount_percent/100))}.00
+                                                        </div>
+                                                    </>
+                                                }
                                             </div>
                                             <div className="product-rating">
                                                 <AiOutlineStar />
