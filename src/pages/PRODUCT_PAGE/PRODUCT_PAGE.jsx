@@ -1,36 +1,83 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Link, useParams } from 'react-router-dom';
 
-import item1 from './../../assets/images/item1.jpg';
-import item2 from './../../assets/images/item2.png';
-import item3 from './../../assets/images/item3.png';
-import item4 from './../../assets/images/item4.png';
-import item5 from './../../assets/images/item5.jpg';
-import item6 from './../../assets/images/item6.jpg';
-import item7 from './../../assets/images/item7.jpg';
-import item8 from './../../assets/images/item8.png';
-import item9 from './../../assets/images/item9.jpg';
-import item10 from './../../assets/images/item10.jpg';
-import HOMEPAGEPRODUCTS from './../../components/HOMEPAGE_PRODUCTS/HOMEPAGE_PRODUCTS';
+import placeholder from './../../assets/images/placeholder.jpg';
 
 import { BsEnvelope, BsTwitter, BsWhatsapp } from "react-icons/bs";
 import { FaFacebookF, FaLinkedinIn } from "react-icons/fa";
 import { AiOutlineStar } from "react-icons/ai";
+import PRODUCTPAGESLIDER from '../../components/PRODUCT_PAGE_SLIDER/PRODUCT_PAGE_SLIDER';
 
 
 
 const PRODUCTPAGE = () => {
-    const price = 20;
-    const minQty = 90;
-
+    const [items, setItems] = useState(null)
+    const [catProduct, setCatProduct] = useState(null)
+    const [products, setProducts] = useState(null)
+    const [minQty, setMinQty] = useState(1)
     const [descp, setDescp] = useState(true);
-    const [qty, setQty] = useState(minQty);
+
+    const { id } = useParams();
+    const getSelectedProduct = async () => {
+        const formData = new FormData();
+        formData.append('id', id)
+        await fetch('http://127.0.0.1:8000/api/getSelectedProduct', {
+            method: "POST",
+            body: formData
+        })
+        .then((res) => {
+            if(res.ok){
+                return res.json()
+            }else{
+                throw Error("Something went wrong")
+            }
+        })
+        .then((data) => {
+            console.log(data[0].catagory_id)
+            setItems(data[0])
+            setCatProduct(data[0].catagory_id)
+        })
+        .catch((error) => {
+            console.log(error.message)
+        })
+    }
+
+
+    const getCatagoryProduct = async () => {
+        const formData = new FormData();
+        formData.append('id',catProduct)
+        await fetch('http://127.0.0.1:8000/api/getCatagoriesProducts', {
+            method: "POST",
+            body: formData
+        })
+        .then((res) => {
+            if(res.ok){
+                return res.json()
+            }else{
+                throw Error("Something went wrong")
+            }
+        })
+        .then((data) => {
+            console.log(data)
+            setProducts(data)
+        })
+        .catch((error) => {
+            console.log(error.message)
+        })
+    }
+
+    
+    useEffect(() => {
+        getSelectedProduct();
+        getCatagoryProduct();
+    }, []);
+
 
     const handleIncrement = () => {
-        setQty(qty+1)
+        setMinQty(minQty+1)
     }
     const handleDecrement = () => {
-        setQty(qty-1)
+        setMinQty(minQty-1)
     }
 
 
@@ -48,86 +95,23 @@ const PRODUCTPAGE = () => {
         }
     ]
 
-    
-    const items = [
-        {
-            img : item1,
-            mainPrice : 17000,
-            offPrice : 15,
-            name : "SONY 75” X8000H-4K Ultra HD HDR Smart Android LED TV"
-        },
-        {
-            img : item2,
-            mainPrice : 17000,
-            offPrice : 15,
-            name : "SONY 75” X8000H-4K Ultra HD HDR Smart Android LED TV"
-        },
-        {
-            img : item3,
-            mainPrice : 17000,
-            offPrice : 15,
-            name : "SONY 75” X8000H-4K Ultra HD HDR Smart Android LED TV"
-        },
-        {
-            img : item4,
-            mainPrice : 17000,
-            offPrice : 15,
-            name : "SONY 75” X8000H-4K Ultra HD HDR Smart Android LED TV"
-        },
-        {
-            img : item5,
-            mainPrice : 17000,
-            offPrice : 15,
-            name : "SONY 75” X8000H-4K Ultra HD HDR Smart Android LED TV"
-        },
-        {
-            img : item6,
-            mainPrice : 17000,
-            offPrice : 15,
-            name : "SONY 75” X8000H-4K Ultra HD HDR Smart Android LED TV"
-        },
-        {
-            img : item7,
-            mainPrice : 17000,
-            offPrice : 15,
-            name : "SONY 75” X8000H-4K Ultra HD HDR Smart Android LED TV"
-        },
-        {
-            img : item8,
-            mainPrice : 17000,
-            offPrice : 15,
-            name : "SONY 75” X8000H-4K Ultra HD HDR Smart Android LED TV"
-        },
-        {
-            img : item9,
-            mainPrice : 17000,
-            offPrice : 15,
-            name : "SONY 75” X8000H-4K Ultra HD HDR Smart Android LED TV"
-        },
-        {
-            img : item10,
-            mainPrice : 17000,
-            offPrice : 15,
-            name : "SONY 75” X8000H-4K Ultra HD HDR Smart Android LED TV"
-        }
-    ]
+            
 
     return (
         <div className="product-page">
             <div className="product-page-left">
                 <div className="big-img">
-                    <img src={item1} alt="" />
+                    <img onLoad={getCatagoryProduct} src={items && items.image} alt="" />
                 </div>
                 <div className="small-img">
-                    <img src={item1} alt="" />
-                    <img src={item2} alt="" />
+                    <img src={items && items.image} alt="" />
                 </div>
             </div>
 
             <div className="product-page-middle">
                 <div className="product-middle-top">
                     <div className="product-rating product-middle-title">
-                        <h4>Rongdhanu Chili powder 50 gm</h4>
+                        <h4>{items && items.name}</h4>
                         <AiOutlineStar />
                         <AiOutlineStar />
                         <AiOutlineStar />
@@ -152,22 +136,22 @@ const PRODUCTPAGE = () => {
                     </div>
 
                     <div className="product-middle-price">
-                        Price : <span>${price}.00</span> /per piece
+                        Price : <span>${items && items.price}.00</span> /per piece
                     </div>
 
                     <div className="product-middle-qty">
                         Quantity :
                         <div className="qty-count">
-                            <button disabled={qty===minQty ? true : false} className='count-btn' onClick={handleDecrement}>-</button>
-                                {qty}
+                            <button disabled={minQty===1 ? true : false} className='count-btn' onClick={handleDecrement}>-</button>
+                                {minQty}
                             <button className='count-btn' onClick={handleIncrement}>+</button>
-                            <span className="product-available">(1000 piece available)</span>
+                            <span className="product-available">({items && items.inventory!==null ? items.inventory.product_quantity : 0} piece available)</span>
                         </div>
                     </div>
 
                     <div className="product-middle-total">
                         Total Price : 
-                        <span>${price * qty}.00</span>
+                        <span>${items && items.price * minQty}.00</span>
                     </div>
 
                     <div className="product-middle-btns">
@@ -207,18 +191,17 @@ const PRODUCTPAGE = () => {
                     </div>
                     <div className="product-middle-middle-desc">
                         <div className="middle-desc-content">
-                            <p>
+                            <>
                                 {
-                                    descp ? desc[0].description : desc[0].reviews
-                                        
+                                    descp ? <div dangerouslySetInnerHTML={{__html : items && items.description}} /> : <div>{desc[0].reviews}</div>        
                                 }
-                            </p>
+                            </>
                         </div>
                     </div>
                 </div>
 
                 <div className="product-middle-bottom">
-                    <HOMEPAGEPRODUCTS items={items} />
+                    <PRODUCTPAGESLIDER items={products && products} />
                 </div>
             </div>
 
@@ -267,29 +250,27 @@ const PRODUCTPAGE = () => {
                     <div className="page-right-bottom-title">Top Selling Products</div>
                     
                     {
-                        items.map((item)=>{
-                            return(
-                                <Link to='/' className="page-right-bottom-single-product">
-                                    <div className="page-right-bottom-img">
-                                        <img src={item.img} alt="" />
-                                    </div>
+                        items && (
+                            <Link to='/' className="page-right-bottom-single-product">
+                                <div className="page-right-bottom-img">
+                                    <img src={items.image} alt="" />
+                                </div>
 
-                                    <div className="page-right-bottom-desc">
-                                        <div className="desc-name">{item.name}</div>
-                                        <div className="desc-star">
-                                            <div className="info-reviews-star">
-                                                <AiOutlineStar />
-                                                <AiOutlineStar />
-                                                <AiOutlineStar />
-                                                <AiOutlineStar />
-                                                <AiOutlineStar />
-                                            </div>
+                                <div className="page-right-bottom-desc">
+                                    <div className="desc-name">{items.name}</div>
+                                    <div className="desc-star">
+                                        <div className="info-reviews-star">
+                                            <AiOutlineStar />
+                                            <AiOutlineStar />
+                                            <AiOutlineStar />
+                                            <AiOutlineStar />
+                                            <AiOutlineStar />
                                         </div>
-                                        <div className="desc-price">${item.mainPrice}.00</div>
                                     </div>
-                                </Link>
-                            )
-                        })
+                                    <div className="desc-price">${items.price}.00</div>
+                                </div>
+                            </Link>
+                        )
                     }
                     
                 </div>

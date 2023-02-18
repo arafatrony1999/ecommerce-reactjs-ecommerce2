@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { Fragment, useState } from 'react';
 import { BsChevronRight } from "react-icons/bs";
 import { Link } from 'react-router-dom';
+import placeholder from './../../../assets/images/placeholder.jpg';
 
 const GROUPRIGHT = (props) => {
+    const [loaded, setLoaded] = useState(false)
     return (
         <div className='group-right'>
             <div className="group-right-title">
@@ -16,14 +18,28 @@ const GROUPRIGHT = (props) => {
                     {
                         props.featured && props.featured.map((product, index) => {
                             return(
-                                <Link key={index} to='/product' className="group-left-product">
-                                    <div className="left-product-image">
-                                        <img src={product.image} alt="" />
-                                    </div>
-                                    <div className="left-product-title">
-                                        $ {product.price}.00
-                                    </div>
-                                </Link>
+                                <Fragment key={product.id}>
+                                    {
+                                    !loaded && 
+                                        <div className="group-left-product">
+                                            <div className="left-product-image">
+                                                <img src={placeholder} alt="asdfasfdas" />
+                                            </div>
+                                            <div className="left-product-title">
+                                                $ {0}.00
+                                            </div>
+                                        </div>
+                                    }
+                                
+                                    <Link style={loaded ? {} : { display: 'none' }} to={'/product/product_id='+product.id} className="group-left-product">
+                                        <div className="left-product-image">
+                                            <img onLoad={() => setLoaded(true)} src={product.image} alt="asdfasfdas" />
+                                        </div>
+                                        <div className="left-product-title">
+                                            $ {product.price}.00
+                                        </div>
+                                    </Link>
+                                </Fragment>
                             )
                         })
                     }

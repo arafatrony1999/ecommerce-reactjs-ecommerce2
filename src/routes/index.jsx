@@ -68,7 +68,7 @@ const Index = () => {
                     <Route path='/marketplace' element={<MARKETPLACE />} />
                     <Route path='/rfq' element={<RFQ />} />
                     <Route path='/regestration' element={<REGESTRATIONPAGE />} />
-                    <Route path='/product' element={<PRODUCTPAGE />} />
+                    <Route path='/product/product_id=:id' element={<PRODUCTPAGE />} />
                     <Route path='/login' element={<LOGINPAGE />} />
                     <Route path='/profile' element={ <PROFILE /> } />
                     <Route path='/cart' element={<PRODUCTPAGE />} />

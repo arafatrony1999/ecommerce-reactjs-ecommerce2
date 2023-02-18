@@ -45,7 +45,6 @@ const Homepage = () => {
             }
         })
         .then((data) => {
-            console.log(data)
             setProducts(data)
         })
         .catch((error) => {
