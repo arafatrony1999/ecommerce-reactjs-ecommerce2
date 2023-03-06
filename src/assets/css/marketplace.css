@@ -55,6 +55,109 @@
 .marketplace-product{
     width: 24%;
 }
+
+.marketplace-product-list{
+    width: 100%;
+    height: 200px;
+    margin: 10px 0;
+    background-color: white;
+    border-radius: 5px;
+}
+.list-rating{
+    display: flex;
+}
+.list-total-review{
+    padding-left: 8px;
+    font-size: 18px;
+}
+.list-total-review span{
+    color: rgb(0, 163, 0);
+    padding: 0 4px;
+}
+.product-card-list{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+.product-list-left{
+    width: 40%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+}
+.list-off-tag{
+    position: absolute;
+    top: 25px;
+    left: 0;
+    height: 25px;
+    width: 50px;
+    background-color: red;
+}
+.product-list-left img{
+    height: 70%;
+}
+.product-list-buttons{
+    margin: 10px 0;
+    display: flex;
+}
+.list-cart-btn button{
+    border: none;
+    outline: none;
+    background: blue;
+    color: white;
+    padding: 5px 10px;
+}
+.list-view-btn button{
+    border: none;
+    outline: none;
+    background: rgb(186, 70, 70);
+    color: white;
+    padding: 5px 10px;
+    margin: 0 5px;
+}
+.product-list-right{
+    width: 60%;
+    height: 100%;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    flex-direction: column;
+}
+.list-main-price{
+    padding-left: 0;
+}
+.grid-list-btn{
+    width: 30%;
+    display: flex;
+    justify-content: flex-end;
+}
+.grid-list-btn button{
+    color: #783392;
+    border: none;
+    outline: none;
+    background: none;
+    border: 1px solid #783392;
+    height: 35px;
+    width: 35px;
+    transition: all .3s linear;
+}
+.grid-list-btn button:hover{
+    color: white;
+    background: #783392;
+    transition: all .3s linear;
+}
+.grid-list-btn button.active{
+    color: white;
+    background: #783392;
+    transition: all .3s linear;
+}
+.list-btn{
+    margin-left: 10px;
+}
 .marketplace-pagination{
     width: 100%;
     height: 100px;
@@ -73,6 +176,21 @@
 }
 .price-filter{
     margin: 10px 0 !important;
+    width: 100%;
+}
+.price-filter .main-catagory-top{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+.price-filter .main-catagory-top span:nth-child(1){
+    width: 100%;
+}
+.price-range{
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    margin-top: 10px;
 }
 .filter-btn{
     display: none;
@@ -81,6 +199,40 @@
     display: none;
 }
 
+.marketplace-right-middle-2{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 50px;
+}
+.grid-list-search{
+    width: 70%;
+}
+.grid-list-search input{
+    height: 35px;
+    width: 90%;
+    border: none;
+    outline: none;
+    padding-left: 10px;
+    border-radius: 5px;
+}
+
+.all-filter-clr{
+    width: 100%;
+    height: 50px;
+    border: none;
+    outline: none;
+    background: #e14141;
+    color: white;
+    border: 1px solid #e14141;
+    transition: all .5s ease
+}
+.all-filter-clr:hover{
+    color: #e14141;
+    background: white;
+    transition: all .5s ease
+}
 
 @media screen and (max-width: 992px) {
     .marketplace{
@@ -150,5 +302,44 @@
         background: black;
         color: white !important;
         border-radius: 5px;
+    }
+
+    .marketplace-product-list{
+        height: 250px;
+    }
+    .product-card-list{
+        flex-wrap: wrap;
+    }
+    .product-list-left{
+        width: 40%;
+    }
+    .product-list-left img{
+        width: 75%;
+        height: auto;
+    }
+
+    .product-list-right{
+        font-size: 12px;
+    }
+    .product-list-right h5{
+        font-size: 16px;
+    }
+    .product-list-price{
+        font-size: 16px;
+        display: flex;
+        flex-wrap: wrap;
+    }
+    .list-main-price{
+        padding-left: 0;
+    }
+    .list-rating{
+        flex-direction: column;
+    }
+    .list-total-review{
+        font-size: 14px !important;
+    }
+    .grid-list-btn{
+        width: 30%;
+        text-align: end;
     }
 }

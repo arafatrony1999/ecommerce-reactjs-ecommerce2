@@ -5,16 +5,17 @@ import { BsCart } from "react-icons/bs";
 import { FiRefreshCw } from "react-icons/fi";
 import { Link } from 'react-router-dom';
 import Slider from "react-slick";
+import PriceFormat from '../../helper/PriceFormat';
 
 const PRODUCTPAGESLIDER = (props) => {
 
     var settings = {
         dots: false,
-        infinite: false,
         speed: 500,
         slidesToShow: 3,
         slidesToScroll: 1,
         initialSlide: 0,
+        infinite: true,
         responsive: [
             {
                 breakpoint: 1024,
@@ -36,24 +37,31 @@ const PRODUCTPAGESLIDER = (props) => {
             {
                 breakpoint: 480,
                 settings: {
+                    slidesToShow: 2,
+                    slidesToScroll: 1
+                }
+            },
+            {
+                breakpoint: 300,
+                settings: {
                     slidesToShow: 1,
                     slidesToScroll: 1
                 }
             }
         ]
-      };
+    };
 
     return (
         <div className='homepage-products'>
             <div className="product-title">
-                <span>Same Catagory products</span>
+                <span>Related products</span>
             </div>
             <div className="product-carousel">
                 <Slider {...settings}>
                     {
                         props.items && props.items.map((item, index) => {
                             return(
-                                <div key={index} className="product-container">
+                                <div key={index} className="product-container-small">
                                     <Link to={'/product/product_id='+item.id} className="product-card">
                                         { 
                                             item.offers !==0 &&
@@ -75,19 +83,22 @@ const PRODUCTPAGESLIDER = (props) => {
                                         <div className="product-image">
                                             <img src={item.image} alt="" />
                                         </div>
+
                                         <div className="product-details">
                                             <div className="product-price">
                                                 {
                                                     item.offers===0 ? 
                                                     <div style={{paddingLeft: "0"}} className="original-price">
-                                                        $ {item.price}.00
+                                                        <PriceFormat price={item.price} />
                                                     </div> : 
                                                     <>
-                                                        <div className="cut-price">
-                                                            <del>$ {item.price}.00</del>
+                                                        <div style={{padding: "0"}} className="original-price">
+                                                            <PriceFormat price={item.price - (item.price*(item.discount && item.discount.discount_percent/100))} />
                                                         </div>
-                                                        <div className="original-price">
-                                                            $ {item.price - (item.price*(item.discount && item.discount.discount_percent/100))}.00
+                                                        <div className="cut-price">
+                                                            <del>
+                                                                <PriceFormat price={item.price} />
+                                                            </del>
                                                         </div>
                                                     </>
                                                 }

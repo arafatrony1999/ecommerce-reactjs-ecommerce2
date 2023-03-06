@@ -1,27 +1,35 @@
 import React, { useEffect, useState } from 'react';
 
-import Dropdown from 'react-bootstrap/Dropdown';
-import DropdownButton from 'react-bootstrap/DropdownButton';
-import Form from 'react-bootstrap/Form';
-import InputGroup from 'react-bootstrap/InputGroup';
 import Alert from 'react-bootstrap/Alert';
 
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useUserContext } from '../../context/UserContext';
 
 const LOGINPAGE = () => {
-    const [type, setType] = useState(false);
-    const [currentType, setCurrentType] = useState(false);
+    const [loading, setLoading] = useState(true)
     const [success, setSuccess] = useState(false);
     const [failed, setFailed] = useState(false);
 
-    const [name, setName] = useState("arafat.rony123@gmail.com");
-    const [password, setPassword] = useState("12345678");
+    const [name, setName] = useState("arafat.rony1999@gmail.com");
+    const [password, setPassword] = useState("123456789");
 
     const location = useLocation();
-    // const navigate = useNavigate();
+    const navigate = useNavigate();
+
+    const { user } = useUserContext();
 
     useEffect(() => {
-        if(location.state==="Regestration Success"){
+        if(user.length === 1){
+            if(user[0].user === 0){
+                setLoading(false)
+            }else{
+                navigate('/user/dashboard')
+            }
+        }
+    }, [navigate, user]);
+
+    useEffect(() => {
+        if(location.state === "Regestration Success"){
             setSuccess(true)
         }
     }, [location]);
@@ -45,13 +53,12 @@ const LOGINPAGE = () => {
                 return res.json();
             }
         })
-        .then((data)=>{
-            if(data===0){
+        .then((data) => {
+            if(data === 0){
                 setFailed(true)
             }else{
                 localStorage.setItem('auth',JSON.stringify(data));
-                // navigate('/profile');
-                window.location.replace('profile');
+                window.location.replace('/user/dashboard');
             }
         })
         .catch((error)=>{
@@ -59,10 +66,8 @@ const LOGINPAGE = () => {
         })
     }
 
-    const handleEP = () => {
-        setType(!type);
-        setCurrentType(!currentType);
-        setName("");
+    if(loading){
+        return <h1>Loading...</h1>
     }
 
     return (
@@ -73,21 +78,7 @@ const LOGINPAGE = () => {
                     success && <Alert variant="success">Successfully Registered! Now login using your Email/Password</Alert>
                 }
                 <div className="input-field-login">
-                    {
-                        type ?
-                        <input style={{paddingLeft: "10px"}} value={name} className='login-input' onChange={(e)=>{setName(e.target.value)}} type="text" placeholder='Email' />
-                            :
-                        <InputGroup className="login-input" style={{border:"none"}}>
-                            <DropdownButton title="(BD) +880">
-                                <Dropdown.Item href="#">Action</Dropdown.Item>
-                                <Dropdown.Item href="#">Another action</Dropdown.Item>
-                                <Dropdown.Item href="#">Something else here</Dropdown.Item>
-                                <Dropdown.Item href="#">Separated link</Dropdown.Item>
-                            </DropdownButton>
-                            <Form.Control placeholder='018******' onChange={(e)=>{setName(e.target.value)}} />
-                        </InputGroup>
-                    }
-                    <span onClick={handleEP}>USE {currentType ? "PHONE" : "EMAIL"} INSTEAD</span>
+                    <input style={{paddingLeft: "10px"}} value={name} className='login-input' onChange={(e)=>{setName(e.target.value)}} type="text" placeholder='Email' />
                 </div>
 
                 <div className="input-field-login">

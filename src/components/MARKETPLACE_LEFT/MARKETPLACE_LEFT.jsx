@@ -2,9 +2,10 @@ import React from 'react';
 import MAINCATAGORIESALL from '../HOMEPAGE_TOP/MAIN_CATAGORIES/MAIN_CATAGORIES_ALL/MAIN_CATAGORIES_ALL';
 
 import { FiX } from "react-icons/fi";
+import SLIDER from '../SLIDER/SLIDER';
+import PriceFormat from '../../helper/PriceFormat';
 
 const MARKETPLACELEFT = () => {
-
     const handleSideBar = () => {
         document.querySelector('.marketplace-left').classList.remove('marketplace-left-auto')
     }
@@ -22,8 +23,15 @@ const MARKETPLACELEFT = () => {
 
             <div className="price-filter">
                 <div className="main-catagory-top">
-                    <span>Price Range</span>
-                    <input type="range" name="" id="" />
+                    <span>Filter by Price</span>
+                    <div className="price-range">
+                        <span>
+                            <PriceFormat price={0} /></span>
+                        <span>
+                            <PriceFormat price={100000} />
+                        </span>
+                    </div>
+                    <SLIDER />
                 </div>
             </div>
             <div className="price-filter">
@@ -36,6 +44,8 @@ const MARKETPLACELEFT = () => {
                     <span>Filter by Febric</span>
                 </div>
             </div>
+
+            <button className='all-filter-clr'>Clear All Filter</button>
         </div>
     );
 }

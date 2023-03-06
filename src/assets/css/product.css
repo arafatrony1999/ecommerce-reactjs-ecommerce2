@@ -370,6 +370,7 @@ span.active-middle{
     }
     .product-middle-price span{
         font-size: 20px;
+        padding-left: 5px;
     }
     .qty-count{
         margin: 0 10px;

@@ -2,6 +2,7 @@ import React, { Fragment, useState } from 'react';
 import { BsChevronRight } from "react-icons/bs";
 import { Link } from 'react-router-dom';
 import placeholder from './../../../assets/images/placeholder.jpg';
+import PriceFormat from '../../../helper/PriceFormat';
 
 const GROUPRIGHT = (props) => {
     const [loaded, setLoaded] = useState(false)
@@ -16,7 +17,7 @@ const GROUPRIGHT = (props) => {
             
             <div className="group-left-products">
                     {
-                        props.featured && props.featured.map((product, index) => {
+                        props.products && props.products.slice(0,6).map((product, index) => {
                             return(
                                 <Fragment key={product.id}>
                                     {
@@ -36,7 +37,7 @@ const GROUPRIGHT = (props) => {
                                             <img onLoad={() => setLoaded(true)} src={product.image} alt="asdfasfdas" />
                                         </div>
                                         <div className="left-product-title">
-                                            $ {product.price}.00
+                                            <PriceFormat price={product.price} />
                                         </div>
                                     </Link>
                                 </Fragment>

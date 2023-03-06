@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 
-import placeholder from './../../assets/images/placeholder.jpg';
-
 import { BsEnvelope, BsTwitter, BsWhatsapp } from "react-icons/bs";
 import { FaFacebookF, FaLinkedinIn } from "react-icons/fa";
 import { AiOutlineStar } from "react-icons/ai";
 import PRODUCTPAGESLIDER from '../../components/PRODUCT_PAGE_SLIDER/PRODUCT_PAGE_SLIDER';
+import { useProductContext } from '../../context/productContext';
+import PriceFormat from '../../helper/PriceFormat';
+import { useCartContext } from '../../context/CartContext';
 
 
 
@@ -16,61 +17,75 @@ const PRODUCTPAGE = () => {
     const [products, setProducts] = useState(null)
     const [minQty, setMinQty] = useState(1)
     const [descp, setDescp] = useState(true);
+    const [loading, setLoading] = useState(true)
 
     const { id } = useParams();
-    const getSelectedProduct = async () => {
-        const formData = new FormData();
-        formData.append('id', id)
-        await fetch('http://127.0.0.1:8000/api/getSelectedProduct', {
-            method: "POST",
-            body: formData
-        })
-        .then((res) => {
-            if(res.ok){
-                return res.json()
-            }else{
-                throw Error("Something went wrong")
-            }
-        })
-        .then((data) => {
-            console.log(data[0].catagory_id)
-            setItems(data[0])
-            setCatProduct(data[0].catagory_id)
-        })
-        .catch((error) => {
-            console.log(error.message)
-        })
-    }
 
+    
+    const { bestSellingProducts } = useProductContext();
 
-    const getCatagoryProduct = async () => {
-        const formData = new FormData();
-        formData.append('id',catProduct)
-        await fetch('http://127.0.0.1:8000/api/getCatagoriesProducts', {
-            method: "POST",
-            body: formData
-        })
-        .then((res) => {
-            if(res.ok){
-                return res.json()
-            }else{
-                throw Error("Something went wrong")
-            }
-        })
-        .then((data) => {
-            console.log(data)
-            setProducts(data)
-        })
-        .catch((error) => {
-            console.log(error.message)
-        })
-    }
+    const { addToCart } = useCartContext();
 
     
     useEffect(() => {
+        const getSelectedProduct = async () => {
+            setLoading(true)
+            const formData = new FormData();
+            formData.append('id', id)
+            await fetch('http://127.0.0.1:8000/api/getSelectedProduct', {
+                method: "POST",
+                body: formData
+            })
+            .then((res) => {
+                if(res.ok){
+                    return res.json()
+                }else{
+                    throw Error("Something went wrong")
+                }
+            })
+            .then((data) => {
+                setItems(data[0])
+                setCatProduct(data[0].catagory_id)
+            })
+            .catch((error) => {
+                console.log(error.message)
+            })
+        }
+    
+    
+        const getCatagoryProduct = async () => {
+            const formData = new FormData();
+            formData.append('id',catProduct)
+            await fetch('http://127.0.0.1:8000/api/getCatagoriesProducts', {
+                method: "POST",
+                body: formData
+            })
+            .then((res) => {
+                if(res.ok){
+                    return res.json()
+                }else{
+                    throw Error("Something went wrong")
+                }
+            })
+            .then((data) => {
+                setProducts(data)
+            })
+            .catch((error) => {
+                console.log(error.message)
+            })
+            setLoading(false)
+        }
+
         getSelectedProduct();
         getCatagoryProduct();
-    }, []);
+    }, [id, catProduct]);
+
+
+    if(loading){
+        return(
+            <h1>Loading... </h1>
+        )
+    }
 
 
     const handleIncrement = () => {
@@ -95,13 +110,13 @@ const PRODUCTPAGE = () => {
         }
     ]
 
-            
 
     return (
         <div className="product-page">
             <div className="product-page-left">
                 <div className="big-img">
-                    <img onLoad={getCatagoryProduct} src={items && items.image} alt="" />
+                    {/* <img onLoad={getCatagoryProduct} src={items && items.image} alt="" /> */}
+                    <img src={items && items.image} alt="" />
                 </div>
                 <div className="small-img">
                     <img src={items && items.image} alt="" />
@@ -135,9 +150,34 @@ const PRODUCTPAGE = () => {
                         </div>
                     </div>
 
-                    <div className="product-middle-price">
-                        Price : <span>${items && items.price}.00</span> /per piece
-                    </div>
+                    {
+                        items.discount ?
+                        <>
+                            <div className="product-middle-price">
+                                Today's Price : 
+                                <span>
+                                    <PriceFormat price={items.price-items.price*(items.discount.discount_percent/100)} />
+                                </span> /per piece
+                            </div>
+                            
+                            <div className="product-middle-price">
+                                
+                                Original Price : 
+                                <span>
+                                    <del>
+                                        <PriceFormat price={items.price} />
+                                    </del>
+                                </span> /per piece
+                            </div>
+                        </> :
+                        <div className="product-middle-price">
+                            Price : 
+                            <span>
+                                <PriceFormat price={items.price} />
+                            </span> /per piece
+                        </div>
+                    }
+
 
                     <div className="product-middle-qty">
                         Quantity :
@@ -151,11 +191,17 @@ const PRODUCTPAGE = () => {
 
                     <div className="product-middle-total">
                         Total Price : 
-                        <span>${items && items.price * minQty}.00</span>
+                        <span>
+                            {
+                                items.discount ?
+                                <PriceFormat price={items && (items.price-items.price*(items.discount.discount_percent/100)) * minQty} /> : 
+                                <PriceFormat price={items && items.price * minQty} />
+                            }
+                        </span>
                     </div>
 
                     <div className="product-middle-btns">
-                        <button>Add to Cart</button>
+                        <button onClick={(e) => addToCart(e, minQty, items)}>Add to Cart</button>
                         <button>Buy Now</button>
                         <button>Chat Now</button>
                     </div>
@@ -250,27 +296,31 @@ const PRODUCTPAGE = () => {
                     <div className="page-right-bottom-title">Top Selling Products</div>
                     
                     {
-                        items && (
-                            <Link to='/' className="page-right-bottom-single-product">
-                                <div className="page-right-bottom-img">
-                                    <img src={items.image} alt="" />
-                                </div>
+                        bestSellingProducts.map((item) => {
+                            return(
+                                <Link to={'/product/product_id='+item.id} key={item.id} className="page-right-bottom-single-product">
+                                    <div className="page-right-bottom-img">
+                                        <img src={item.image} alt="" />
+                                    </div>
 
-                                <div className="page-right-bottom-desc">
-                                    <div className="desc-name">{items.name}</div>
-                                    <div className="desc-star">
-                                        <div className="info-reviews-star">
-                                            <AiOutlineStar />
-                                            <AiOutlineStar />
-                                            <AiOutlineStar />
-                                            <AiOutlineStar />
-                                            <AiOutlineStar />
+                                    <div className="page-right-bottom-desc">
+                                        <div className="desc-name">{item.name}</div>
+                                        <div className="desc-star">
+                                            <div className="info-reviews-star">
+                                                <AiOutlineStar />
+                                                <AiOutlineStar />
+                                                <AiOutlineStar />
+                                                <AiOutlineStar />
+                                                <AiOutlineStar />
+                                            </div>
+                                        </div>
+                                        <div className="desc-price">
+                                            <PriceFormat price={item.price} />
                                         </div>
                                     </div>
-                                    <div className="desc-price">${items.price}.00</div>
-                                </div>
-                            </Link>
-                        )
+                                </Link>
+                            )
+                        })
                     }
                     
                 </div>

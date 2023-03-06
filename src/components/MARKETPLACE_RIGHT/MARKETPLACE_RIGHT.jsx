@@ -1,24 +1,28 @@
 import React from 'react';
-import PRODUCTCARD from '../PRODUCT_CARD/PRODUCT_CARD';
 import FORM from './FORM/FORM';
 
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
-import { BsFunnel } from "react-icons/bs";
+import { BsFunnel, BsFillGridFill, BsListTask } from "react-icons/bs";
+import ALLPRODUCTS from '../ALL_PRODUCTS/ALL_PRODUCTS';
+import { Link } from 'react-router-dom';
+import { useFilterContext } from '../../context/FilterContext';
 
 
 
-const MARKETPLACERIGHT = (props) => {
+const MARKETPLACERIGHT = () => {
 
     const handleSideBar = () => {
         document.querySelector('.marketplace-left').classList.add('marketplace-left-auto')
     }
 
+    const { gridView, setGridView, setListView, filters:{search, userCatagory}, handleSearchFilter } = useFilterContext();
+
     return (
         <div className='marketplace-right'>
             
             <div className="marketplace-right-top">
-                Home / <span> "All categories"</span>
+                <Link to="/">Home</Link> / <span> {`${userCatagory}`}</span>
             </div>
 
             <div className="marketplace-right-middle">
@@ -30,21 +34,30 @@ const MARKETPLACERIGHT = (props) => {
                 </div>
                 <div className="marketplace-middle-right">
                     <FORM />
-                    <FORM />
+                </div>
+            </div>
+
+            <div className="marketplace-right-middle-2 my-2">
+                
+                <div className="grid-list-search">
+                    <form onSubmit={(e) => e.preventDefault()}>
+                        <input type="text" name="search" value={search} placeholder='Search Product...' onChange={handleSearchFilter} />
+                    </form>
+                </div>
+
+                <div className="grid-list-btn">
+                    <button onClick={setGridView} className={gridView ? 'grid-btn active' : 'grid-btn'}>
+                        <BsFillGridFill />
+                    </button>
+                    <button onClick={setListView} className={gridView ? 'list-btn' : 'list-btn active'}>
+                        <BsListTask />
+                    </button>
                 </div>
             </div>
 
             <div className="marketplace-right-bottom">
                 <div className="marketplace-products">
-                    {
-                        props.items.map((item, index)=>{
-                            return(
-                                <div key={index} className="marketplace-product">
-                                    <PRODUCTCARD item={item} />
-                                </div>
-                            )
-                        })
-                    }
+                    <ALLPRODUCTS />
                 </div>
             </div>
 

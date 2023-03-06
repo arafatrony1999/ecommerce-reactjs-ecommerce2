@@ -1,19 +1,14 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
-import Dropdown from 'react-bootstrap/Dropdown';
-import DropdownButton from 'react-bootstrap/DropdownButton';
-import Form from 'react-bootstrap/Form';
-import InputGroup from 'react-bootstrap/InputGroup';
 import Alert from 'react-bootstrap/Alert';
 
 import { Link, useNavigate } from 'react-router-dom';
+import { useUserContext } from '../../context/UserContext';
 
 const REGESTRATIONPAGE = () => {
-    const [userType, setUserType] = useState("Phone");
-    const [type, setType] = useState(false);
-    const [currentType, setCurrentType] = useState(false);
+    const [loading, setLoading] = useState(true)
     const [name, setName] = useState("");
-    const [user, setUser] = useState("");
+    const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [cpassword, setCpassword] = useState("");
     const [same, setSame] = useState(false);
@@ -21,29 +16,27 @@ const REGESTRATIONPAGE = () => {
 
     const navigate = useNavigate();
 
-    const handleEP = () => {
-        setUser("");
-        setType(!type);
-        setCurrentType(!currentType);
-    }
+    const { user } = useUserContext();
 
+    useEffect(() => {
+        if(user.length === 1){
+            if(user[0].user === 0){
+                setLoading(false)
+            }else{
+                navigate('/user/dashboard')
+            }
+        }
+    }, [navigate, user]);
 
     async function handleSubmit(e){
         e.preventDefault();
-
-        if(type){
-            setUserType("Phone");
-        }else{
-            setUserType("Email");
-        }
 
         if(password===cpassword){
             if(password.length>=8){
                 const formData = new FormData();
     
                 formData.append('name',name)
-                formData.append('type',userType)
-                formData.append('user',user)
+                formData.append('user',email)
                 formData.append('password',password)
                 
                 await fetch('http://127.0.0.1:8000/api/regestration',{
@@ -74,6 +67,10 @@ const REGESTRATIONPAGE = () => {
 
     };
 
+    if(loading){
+        return <h1>Loading...</h1>
+    }
+
 
     return (
         <div className='login-page'>
@@ -82,25 +79,9 @@ const REGESTRATIONPAGE = () => {
                 <div className="input-field-login2">
                     <input style={{paddingLeft: "10px"}} onChange={(e)=>{setName(e.target.value)}} className='login-input' type="text" placeholder='Full Name' />
                 </div>
-                <div className="input-field-login">
-                    {
-                        type ?
-                        <input style={{paddingLeft: "10px"}} onChange={(e)=>{setUser(e.target.value)}} className='login-input' type="text" placeholder='Email' />
-                            :
-                        <InputGroup className="login-input" style={{border:"none"}}>
-                            <DropdownButton title="(BD) +880">
-                                <Dropdown.Item href="#">Bangladesh (+880)</Dropdown.Item>
-                                <Dropdown.Item href="#">India (+97)</Dropdown.Item>
-                                <Dropdown.Item href="#">Bangladesh (+880)</Dropdown.Item>
-                                <Dropdown.Item href="#">India (+97)</Dropdown.Item>
-                            </DropdownButton>
-                            <Form.Control placeholder='018******' onChange={(e)=>{setUser(e.target.value)}} />
-                        </InputGroup>
-                    }
-                    <span onClick={handleEP}>USE {currentType ? "PHONE" : "EMAIL"} INSTEAD</span>
+                <div className="input-field-login2">
+                    <input style={{paddingLeft: "10px"}} onChange={(e)=>{setEmail(e.target.value)}} className='login-input' type="text" placeholder='Email' />
                 </div>
-
-                
                 <div className="input-field-login2">
                     <input style={{paddingLeft: "10px"}} onChange={(e)=>{setPassword(e.target.value)}} className='login-input' type="password" placeholder='Password' />
                 </div>

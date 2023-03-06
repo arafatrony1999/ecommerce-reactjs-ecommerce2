@@ -1,23 +1,29 @@
-import React, { useState, useContext } from 'react';
-
-import { userContext } from '../../customHooks/userContext';
+import React, { useState, useEffect } from 'react';
 
 import bd from './../../assets/images/bd.png';
 import en from './../../assets/images/en.png';
 import logo from './../../assets/images/logo.svg';
 
 import { FaAngleDown, FaSearch, FaGooglePlay, FaPhoneVolume } from "react-icons/fa";
-import { CiShoppingCart, CiSearch } from "react-icons/ci";
+import { CiSearch } from "react-icons/ci";
 import { FiRefreshCw } from "react-icons/fi";
 import { MdKeyboardBackspace } from "react-icons/md";
 
-import { NavLink } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
+import { BsCart } from 'react-icons/bs';
 
-const HEADER = () => {
+import { useUserContext } from '../../context/UserContext';
+import { useCartContext } from '../../context/CartContext';
+import { useCompareContext } from '../../context/CompareContext';
+
+const HEADER = (props) => {
     const [allLang, setAllLang] = useState(false);
     const [toggle, setToggle] = useState(true);
 
-    const user = useContext(userContext);
+    const { user } = useUserContext();
+    const { total_item } = useCartContext();
+    const { compareCount } = useCompareContext();
+
 
     const handleAllLang = () => {
         setAllLang(!allLang);
@@ -33,7 +39,17 @@ const HEADER = () => {
         localStorage.removeItem('auth');
         window.location.replace('/login');
     }
-    console.log(user);
+
+    useEffect(() => {
+        window.addEventListener('scroll', () => {
+            if(window.scrollY > 0){
+                document.getElementById('header-fixed').classList.add('header-fixed-active')
+            }else{
+                document.getElementById('header-fixed').classList.remove('header-fixed-active')
+            }
+        })
+    }, [])
+
 
     return (
         <header>
@@ -82,45 +98,46 @@ const HEADER = () => {
                     </div>
                     <div className="header-top-right">
                         <div className="header-top-right">
-                                {
-                                    user===null ? 
-                                        <span>
-                                            <NavLink to="login">Login</NavLink>
-                                            <NavLink to="regestration">Regestration</NavLink>
-                                        </span> : 
-                                        <span>
-                                            <NavLink to="profile">My Profile</NavLink>
-                                            <button onClick={logout}>Logout</button>
-                                        </span>
-                                }
+                            {
+                                user.length !== 0 && user[0].user === 0 ? 
+                                <span>
+                                    <NavLink to="login">Login</NavLink>
+                                    <NavLink to="regestration">Regestration</NavLink>
+                                </span> : 
+                                <span>
+                                    <NavLink to="/user/dashboard">My Profile</NavLink>
+                                    <button onClick={logout}>Logout</button>
+                                </span>
+                            }
                         </div>
                     </div>
                 </div>
 
+                            
 
-                <div className="header-middle-mobile">
-                    <div className="mobile-logo-div">
-                        <img src={logo} alt="" />
-                    </div>
-                    <div className="mobile-search-btn">
-                        <CiSearch onClick={handleToggle} />
-                    </div>
 
-                    <div className={toggle ? "mobile-toggle-search" : "mobile-toggle-search show-toggle"}>
-                        <div className='form'>
-                            <input type="text" placeholder='I am shopping for....' />
-                            <button onClick={handleNotToggle}>
-                                <MdKeyboardBackspace />
-                            </button>
+                <div id='header-fixed' className="header-fixed">
+                    <div className="header-middle-mobile">
+                        <Link to="/" className="mobile-logo-div">
+                            <img src={logo} alt="" />
+                        </Link>
+                        <div className="mobile-search-btn">
+                            <CiSearch onClick={handleToggle} />
+                        </div>
+
+                        <div className={toggle ? "mobile-toggle-search" : "mobile-toggle-search show-toggle"}>
+                            <div className='form'>
+                                <input type="text" placeholder='I am shopping for....' />
+                                <button onClick={handleNotToggle}>
+                                    <MdKeyboardBackspace />
+                                </button>
+                            </div>
                         </div>
                     </div>
-                </div>
-
-                <div className="header-fixed fixed-header">
                     <div className="header-middle">
-                        <div className="logo-div">
+                        <Link to="/" className="logo-div">
                             <img src={logo} alt="Logo" />
-                        </div>
+                        </Link>
 
                         <div className="search-div">
                             <div className="search-box">
@@ -136,28 +153,29 @@ const HEADER = () => {
 
                         <div className="other-div">
                             <div className="other-links">
-                                <a href="/">
+                                <Link to="/user/compare-list">
                                     <div className="other-link-inside-a">
                                         <div className="other-link-icon">
                                             <FiRefreshCw />
                                         </div>
                                         <div className="other-link-text">
-                                            <div className="text-count">0</div>
+                                            <div className="text-count">{ compareCount && compareCount }</div>
                                             <div className="text-title">Compare</div>
                                         </div>
                                     </div>
-                                </a>
-                                <a href="/">
+                                </Link>
+                                <Link to="/user/cart">
                                     <div className="other-link-inside-a">
                                         <div className="other-link-icon">
-                                            <CiShoppingCart />
+                                            <BsCart />
                                         </div>
                                         <div className="other-link-text">
-                                            <div className="text-count">0</div>
+                                            {/* <div className="text-count">{cartCount}</div> */}
+                                            <div className="text-count">{total_item && total_item}</div>
                                             <div className="text-title">My-Cart</div>
                                         </div>
                                     </div>
-                                </a>
+                                </Link>
                             </div>
                         </div>
 

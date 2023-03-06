@@ -1,7 +1,8 @@
-import React from 'react';
+import 'react-toastify/dist/ReactToastify.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
+import 'react-super-responsive-table/dist/SuperResponsiveTableStyle.css';
 
 import './assets/css/header.css';
 import './assets/css/homepage.css';
@@ -10,6 +11,8 @@ import './assets/css/rfq.css';
 import './assets/css/login.css';
 import './assets/css/product.css';
 import './assets/css/profile.css';
+import './assets/css/slider.css';
+import './assets/css/cart.css';
 
 import Index from './routes';
 

@@ -25,7 +25,7 @@ const GROUPLEFT = (props) => {
     return (
         <div className='group-left'>
             <div className="group-left-left" id={stylesLeft}>
-                <h3>{props.products && props.products.cat_name}</h3>
+                <h3>{props.subcatagory && props.subcatagory.cat_name}</h3>
                 <a id={linkLeft} href='/'>View All</a>
             </div>
             <div className="group-left-right" id={stylesRight}>
@@ -38,7 +38,7 @@ const GROUPLEFT = (props) => {
 
                 <div className="group-left-products">
                     {
-                        props.products && props.products.subcatagory.slice(0,6).map((product, index) => {
+                        props.subcatagory && props.subcatagory.subcatagory.slice(0,6).map((product, index) => {
                             return(
                                 <Fragment key={product.id}>
                                     {
