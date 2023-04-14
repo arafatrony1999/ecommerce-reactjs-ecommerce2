@@ -13,6 +13,7 @@ const REGESTRATIONPAGE = () => {
     const [cpassword, setCpassword] = useState("");
     const [same, setSame] = useState(false);
     const [errorMessege, setErrorMessege] = useState("");
+    const [exist, setExist] = useState(false);
 
     const navigate = useNavigate();
 
@@ -48,7 +49,17 @@ const REGESTRATIONPAGE = () => {
                         throw Error("Something went wrong");
                     }
                     else{
-                        navigate('/login',{state:"Regestration Success"});
+                        return res.json()
+                    }
+                })
+                .then((data) => {
+                    if(data.exist === 1){
+                        setExist(true)
+                    }else{
+                        if(data.status === 1){
+                            navigate('/account/verify', {state: data.user})
+                        }
+                        // navigate('/login',{state:"Regestration Success"});
                     }
                 })
                 .catch((error)=>{
@@ -92,11 +103,15 @@ const REGESTRATIONPAGE = () => {
                 {
                     same && <Alert variant="danger">{errorMessege}</Alert>
                 }
+                {
+                    exist && <Alert variant="danger">Already have an account with this email address!</Alert>
+                }
                 
                 <div>
                     <input type="checkbox" label="Check me out" />
                     <span style={{paddingLeft:"10px"}}>By signing up you agree to our terms and conditions.</span>
                 </div>
+                
 
                 <button className='login-btn' type='submit'>CREATE ACCOUNT</button>
 

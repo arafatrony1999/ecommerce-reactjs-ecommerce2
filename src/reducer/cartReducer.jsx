@@ -1,17 +1,5 @@
 const CartReducer = (state, action) => {
 
-    if(action.type==="ADD_TO_CART"){
-        const { qty, product } = action.payload;
-
-        Object.assign(product, {quantity: qty})
-
-        return{
-            ...state,
-            setCartItem: product,
-            addSuccess: false
-        }
-    }
-
     if(action.type === "SET_NO_USER"){
         return{
             ...state,
@@ -23,6 +11,18 @@ const CartReducer = (state, action) => {
         return{
             ...state,
             noUser: true
+        }
+    }
+
+    if(action.type==="ADD_TO_CART"){
+        const { qty, product } = action.payload;
+
+        Object.assign(product, {quantity: qty})
+
+        return{
+            ...state,
+            setCartItem: product,
+            addSuccess: false
         }
     }
     
@@ -54,7 +54,6 @@ const CartReducer = (state, action) => {
             unsetCartItem: {},
             addSuccess: false,
             removeSuccess: true
-
         }
     }
 

@@ -9,6 +9,7 @@ const LOGINPAGE = () => {
     const [loading, setLoading] = useState(true)
     const [success, setSuccess] = useState(false);
     const [failed, setFailed] = useState(false);
+    const [notVerified, setNotVerified] = useState(false)
 
     const [name, setName] = useState("arafat.rony1999@gmail.com");
     const [password, setPassword] = useState("123456789");
@@ -57,8 +58,12 @@ const LOGINPAGE = () => {
             if(data === 0){
                 setFailed(true)
             }else{
-                localStorage.setItem('auth',JSON.stringify(data));
-                window.location.replace('/user/dashboard');
+                if(data.verified === 0){
+                    setNotVerified(true)
+                }else{
+                    localStorage.setItem('auth',JSON.stringify(data));
+                    window.location.replace('/user/dashboard');
+                }
             }
         })
         .catch((error)=>{
@@ -98,6 +103,12 @@ const LOGINPAGE = () => {
                 
                 {
                     failed && <Alert variant="danger">Email / Password is incorrect</Alert>
+                }
+                {
+                    notVerified && <Alert variant="danger">
+                        Your account is not verified!
+                        <Link style={{textDecoration: 'underline'}} to='/'> Verify Now? </Link>
+                    </Alert>
                 }
 
                 <div className="no-acc">

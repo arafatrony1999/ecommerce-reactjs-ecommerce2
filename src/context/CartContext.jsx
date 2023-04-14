@@ -56,15 +56,13 @@ const CartProvider = ({ children }) => {
                 dispatch({type: "API_ERROR"});
             }
         }
-
-
     }
 
 
     useEffect(() => {
         getCartItems(cartAPI)
         //eslint-disable-next-line
-    }, [user, state.setCartItem, state.addSuccess, state.removeSuccess])
+    }, [user, state.setCartItem, state.unsetCartItem, state.addSuccess, state.removeSuccess])
 
 
     useEffect(() => {
@@ -130,7 +128,7 @@ const CartProvider = ({ children }) => {
                 dispatch({type: "API_ERROR"})
             }
     
-            // dispatch({type: "REMOVE_FROM_CART_SUCCESSFULL"})
+            dispatch({type: "REMOVE_FROM_CART_SUCCESSFULL"})
         }
 
     }, [state.unsetCartItem, user]);

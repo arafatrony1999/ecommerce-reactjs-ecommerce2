@@ -23,6 +23,7 @@ import COMPAREPAGE from '../pages/COMPARE_PAGE/COMPARE_PAGE';
 import EDITPROFILE from '../pages/EDIT_PROFILE/EDIT_PROFILE';
 import { useUserContext } from '../context/UserContext';
 import RESETPASSWORD from '../pages/RESET_PASSWORD/RESET_PASSWORD';
+import VERIFICATION_PAGE from '../pages/VERIFICATION_PAGE/VERIFICATION_PAGE';
 
 
 const Index = () => {
@@ -183,10 +184,7 @@ const Index = () => {
                 <Route path='/product/product_id=:id' element={<PRODUCTPAGE />} />
                 <Route path='/regestration' element={<REGESTRATIONPAGE />} />
                 <Route path='/login' element={<LOGINPAGE /> } />
-                <Route path='/wishlist' element={<PRODUCTPAGE />} />
-                <Route path='/orders' element={<PRODUCTPAGE />} />
-                <Route path='/transection' element={<PRODUCTPAGE />} />
-                <Route path='/compare' element={<PRODUCTPAGE />} />
+                <Route path='/account/verify' element={<VERIFICATION_PAGE /> } />
 
                 
                 <Route path='/user' element={<PROFILELAYOUT />} >

@@ -18,7 +18,7 @@ const ProductReducer = (state, action) => {
             bestSellingProducts: action.payload.filter((e) => {
                 return e.inventory !== null
             }).sort((e) => {
-                return e.inventory.total_sale
+                return e.total_sale
             }).slice(0,10),
             products: action.payload
         }

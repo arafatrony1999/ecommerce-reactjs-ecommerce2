@@ -26,7 +26,8 @@ const CARTITEMCONTAINER = () => {
                     </Tr>
                 </Thead>
                 <Tbody>
-                    {   cart.length === 0 ? <NOITEMMESSAGE totalCol={6} noItemMessage="Your Cart is empty! 😓" /> :
+                    {
+                        cart.length === 0 ? <NOITEMMESSAGE totalCol={6} noItemMessage="Your Cart is empty! 😓" /> :
                         cart.map((cart) => {
                             return(
                                 <Tr key={cart.id}>
