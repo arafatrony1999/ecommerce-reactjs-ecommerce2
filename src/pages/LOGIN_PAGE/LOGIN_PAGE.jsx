@@ -75,6 +75,10 @@ const LOGINPAGE = () => {
         return <h1>Loading...</h1>
     }
 
+    const handleVerify = () => {
+        navigate('/account/verify', {state: name})
+    }
+
     return (
         <div className='login-page'>
             <h4>Login to your account</h4>
@@ -107,7 +111,7 @@ const LOGINPAGE = () => {
                 {
                     notVerified && <Alert variant="danger">
                         Your account is not verified!
-                        <Link style={{textDecoration: 'underline'}} to='/'> Verify Now? </Link>
+                        <button onClick={handleVerify} style={{textDecoration: 'underline'}}> Verify Now? </button>
                     </Alert>
                 }
 

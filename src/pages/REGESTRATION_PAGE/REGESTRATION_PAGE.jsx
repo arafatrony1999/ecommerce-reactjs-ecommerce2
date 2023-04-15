@@ -32,13 +32,13 @@ const REGESTRATIONPAGE = () => {
     async function handleSubmit(e){
         e.preventDefault();
 
-        if(password===cpassword){
-            if(password.length>=8){
+        if(password === cpassword){
+            if(password.length >= 8){
                 const formData = new FormData();
     
-                formData.append('name',name)
-                formData.append('user',email)
-                formData.append('password',password)
+                formData.append('name', name)
+                formData.append('user', email)
+                formData.append('password', password)
                 
                 await fetch('http://127.0.0.1:8000/api/regestration',{
                     method: "POST",
@@ -53,7 +53,7 @@ const REGESTRATIONPAGE = () => {
                     }
                 })
                 .then((data) => {
-                    if(data.exist === 1){
+                    if(data.exist === 0){
                         setExist(true)
                     }else{
                         if(data.status === 1){
