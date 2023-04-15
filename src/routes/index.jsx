@@ -24,6 +24,7 @@ import EDITPROFILE from '../pages/EDIT_PROFILE/EDIT_PROFILE';
 import { useUserContext } from '../context/UserContext';
 import RESETPASSWORD from '../pages/RESET_PASSWORD/RESET_PASSWORD';
 import VERIFICATION_PAGE from '../pages/VERIFICATION_PAGE/VERIFICATION_PAGE';
+import CHECKOUT_PAGE from '../pages/CHECKOUT_PAGE/CHECKOUT_PAGE';
 
 
 const Index = () => {
@@ -190,6 +191,7 @@ const Index = () => {
                 <Route path='/user' element={<PROFILELAYOUT />} >
                     <Route path='dashboard' element={<PROFILERIGHT />} ></Route>
                     <Route path='cart' element={<CARTPAGERIGHT />} ></Route>
+                    <Route path='checkout' element={<CHECKOUT_PAGE />} ></Route>
                     <Route path='compare-list' element={<COMPAREPAGE />} ></Route>
                     <Route path='profile' element={<EDITPROFILE  />} ></Route>
                     <Route path='profile/reset-password' element={<RESETPASSWORD  />} ></Route>

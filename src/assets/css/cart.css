@@ -7,8 +7,11 @@
     padding: 0 15%;
 }
 .single-cart-nav.active{
-    color: #783392 !important;
-    opacity: 1 !important;
+    color: #783392;
+    opacity: 1;
+}
+#cart-done{
+    color: green !important;
 }
 .single-cart-nav{
     height: 100%;
@@ -23,6 +26,7 @@
 }
 .single-cart-nav-icon{
     font-size: 20px;
+    font-weight: bolder !important;
 }
 .single-cart-nav-text{
     font-size: 12px;
@@ -77,8 +81,7 @@
     outline: none;
     width: 35px;
     height: 35px;
-    border-radius: 50%;
-    font-size: 20px;
+    font-size: 18px;
 }
 .cart-remove-btn svg{
     position: absolute;
@@ -86,12 +89,15 @@
     top: 50%;
     transform: translate(-50%, -50%);
 }
+.cart-subtotal-container{
+    margin-top: 20px;
+    width: 100%;
+}
 .cart_subtotal{
     width: 100%;
-    height: 75px;
+    height: 40px;
     display: flex;
     justify-content: space-between;
-    margin-top: 20px;
     background: white;
     padding: 0 20px;
 }
@@ -101,7 +107,13 @@
     width: fit-content;
     display: flex;
     align-items: center;
-    font-size: 20px;
+    font-size: 16px;
+}
+.cart-last-btns{
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin-top: 20px;
 }
 
 @media screen and (max-width: 992px) {
@@ -161,8 +173,6 @@
         outline: none;
         width: 35px;
         height: 35px;
-        border-radius: 50%;
-        font-size: 20px;
     }
     .cart-remove-btn svg{
         position: absolute;

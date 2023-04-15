@@ -1,10 +1,10 @@
 import React from 'react';
 import { BsCart3, BsMap, BsTruck, BsCreditCard, BsCheckCircle, BsChevronRight } from "react-icons/bs";
 
-const CARTNAV = () => {
+const CARTNAV = (props) => {
     return (
         <div className='cart-nav'>
-            <div className="single-cart-nav active">
+            <div className={props.stage === 1 ? "single-cart-nav active" : "single-cart-nav"} id={props.stage > 1 ? 'cart-done' : ''}>
                 <div className="single-cart-nav-icon">
                     <BsCart3 />
                 </div>
@@ -12,10 +12,12 @@ const CARTNAV = () => {
                     1. My Cart
                 </div>
             </div>
-            <div className="single-cart-nav">
+
+
+            <div className={props.stage === 2 ? "single-cart-nav active" : "single-cart-nav"} id={props.stage > 2 ? 'cart-done' : ''}>
                 <BsChevronRight />
             </div>
-            <div className="single-cart-nav">
+            <div className={props.stage === 2 ? "single-cart-nav active" : "single-cart-nav"} id={props.stage > 2 ? 'cart-done' : ''}>
                 <div className="single-cart-nav-icon">
                     <BsMap />
                 </div>
@@ -23,10 +25,12 @@ const CARTNAV = () => {
                     2. Shipping Info
                 </div>
             </div>
-            <div className="single-cart-nav">
+
+
+            <div className={props.stage === 3 ? "single-cart-nav active" : "single-cart-nav"} id={props.stage > 3 ? 'cart-done' : ''}>
                 <BsChevronRight />
             </div>
-            <div className="single-cart-nav">
+            <div className={props.stage === 3 ? "single-cart-nav active" : "single-cart-nav"} id={props.stage > 3 ? 'cart-done' : ''}>
                 <div className="single-cart-nav-icon">
                     <BsTruck />
                 </div>
@@ -34,10 +38,12 @@ const CARTNAV = () => {
                     3. Delivery Info
                 </div>
             </div>
-            <div className="single-cart-nav">
+
+
+            <div className={props.stage === 4 ? "single-cart-nav active" : "single-cart-nav"} id={props.stage > 4 ? 'cart-done' : ''}>
                 <BsChevronRight />
             </div>
-            <div className="single-cart-nav">
+            <div className={props.stage === 4 ? "single-cart-nav active" : "single-cart-nav"} id={props.stage > 4 ? 'cart-done' : ''}>
                 <div className="single-cart-nav-icon">
                     <BsCreditCard />
                 </div>
@@ -45,10 +51,12 @@ const CARTNAV = () => {
                     4. Payment Info
                 </div>
             </div>
-            <div className="single-cart-nav">
+
+
+            <div className={props.stage === 5 ? "single-cart-nav active" : "single-cart-nav"} id={props.stage > 5 ? 'cart-done' : ''}>
                 <BsChevronRight />
             </div>
-            <div className="single-cart-nav">
+            <div className={props.stage === 5 ? "single-cart-nav active" : "single-cart-nav"} id={props.stage > 5 ? 'cart-done' : ''}>
                 <div className="single-cart-nav-icon">
                     <BsCheckCircle />
                 </div>
