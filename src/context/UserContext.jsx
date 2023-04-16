@@ -10,14 +10,17 @@ const initialState = {
     userUpdateFailed: false,
     incorrect: false,
     correct: false,
+    selectedAddress: {},
     user: []
 }
-
-const api = "http://127.0.0.1:8000/api/getUser"
 
 const UserProvider = ({ children }) => {
 
     const [state, dispatch] = useReducer(reducer, initialState);
+
+    const setSelectedAddress = (id) => {
+        dispatch({type: 'SET_SELECTED_ADDRESS', payload: id})
+    }
 
     const updateUser = (name, phone, address) => {
 
@@ -63,14 +66,14 @@ const UserProvider = ({ children }) => {
                 localStorage.removeItem('auth')
                 localStorage.setItem('auth', JSON.stringify(res.data))
                 dispatch({type: "PASSWORD_UPDATE_SUCCESSFULL"})
-                getUser(api)
+                getUser()
             }
         })
     }
 
 
 
-    const getUser = (url) => {
+    const getUser = () => {
         const localAuth = localStorage.getItem("auth");
         const userAuth = JSON.parse(localAuth);
 
@@ -79,7 +82,7 @@ const UserProvider = ({ children }) => {
             formData.append('auth', userAuth.auth)
 
             try{
-                axios.post(url, formData)
+                axios.post('http://127.0.0.1:8000/api/getUser', formData)
                 .then((res) => {
                     dispatch({type: "USER_DATA", payload: res.data})
                 })
@@ -95,11 +98,11 @@ const UserProvider = ({ children }) => {
     }
 
     useEffect(() => {
-        getUser(api)
+        getUser()
     }, [state.userUpdateSuccessfull, state.incorrect, state.correct]);
 
     return(
-        <UserContext.Provider value={{...state, updateUser, updatePassword }}>
+        <UserContext.Provider value={{...state, updateUser, updatePassword, getUser, setSelectedAddress }}>
             {children}
         </UserContext.Provider>
     )

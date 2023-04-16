@@ -68,6 +68,13 @@ const UserReducer = (state, action) => {
         }
     }
 
+    if(action.type === 'SET_SELECTED_ADDRESS'){
+        return{
+            ...state,
+            selectedAddress: action.payload
+        }
+    }
+
     return state;
 }
 
