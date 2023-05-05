@@ -11,6 +11,9 @@ const initialState = {
     incorrect: false,
     correct: false,
     selectedAddress: {},
+    agreeCheck: false,
+    paymentMethod: {},
+    coupon: {},
     user: []
 }
 
@@ -18,8 +21,36 @@ const UserProvider = ({ children }) => {
 
     const [state, dispatch] = useReducer(reducer, initialState);
 
+    const onSubmitCoupon = (coupon) => {
+        const formData = new FormData()
+        formData.append('coupon', coupon)
+
+        axios.post('http://127.0.0.1:8000/api/checkCoupon', formData)
+        .then((res) => {
+            console.log(res)
+            if(res.data.status === 400){
+                dispatch({type: 'COUPON_FOUND', payload: res.data})
+            }else if(res.data.status === 401){
+                alert('no coupon')
+            }else{
+                throw Error('aljdfas')
+            }
+        })
+        .catch((error) => {
+            alert(error.message)
+        })
+    }
+
+    const selectPaymentMethod = (method) => {
+        dispatch({type: 'SELECT_PAYMENT_METHOD', payload: method})
+    }
+
     const setSelectedAddress = (id) => {
         dispatch({type: 'SET_SELECTED_ADDRESS', payload: id})
+    }
+
+    const agreeChange = () => {
+        dispatch({type: 'AGREE_CHANGE', payload: state.agreeCheck})
     }
 
     const updateUser = (name, phone, address) => {
@@ -102,7 +133,7 @@ const UserProvider = ({ children }) => {
     }, [state.userUpdateSuccessfull, state.incorrect, state.correct]);
 
     return(
-        <UserContext.Provider value={{...state, updateUser, updatePassword, getUser, setSelectedAddress }}>
+        <UserContext.Provider value={{...state, updateUser, updatePassword, getUser, setSelectedAddress, agreeChange, selectPaymentMethod, onSubmitCoupon }}>
             {children}
         </UserContext.Provider>
     )

@@ -74,3 +74,88 @@
     margin-top: 20px;
     background: white;
 }
+.dropdown{
+    z-index: 2;
+}
+.dropdown button{
+    padding: 5px 0 !important;
+}
+.dropdown button::after{
+    display: none;
+}
+
+.delivery-info-container{
+    margin: 10px 0;
+    background: white;
+    display: flex;
+    align-items: center;
+    height: 75px;
+}
+
+.delivery-info-btns{
+    width: 100%;
+    text-align: right;
+}
+
+
+.payment-methods{
+    display: flex;
+    padding: 0 15%;
+    align-items: center;
+    justify-content: space-between;
+}
+.single-payment-method{
+    width: 32%;
+    text-align: center;
+    border: 1px solid rgb(205, 201, 201);
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    overflow: hidden;
+}
+.single-payment-method.active{
+    border: 2px solid green;
+}
+.single-payment-logo{
+    width: 100%;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 10px;
+}
+.single-payment-method img{
+    height: 100px;
+}
+.payment-input-container{
+    background: white;
+    padding: 10px 20px;
+}
+.payment-details-line{
+    display: flex;
+}
+.payment-line-middle{
+    padding: 0 20px;
+}
+.payment-line-left{
+    width: 20%;
+}
+.payment-line-right a{
+    text-decoration: underline !important;
+    color: blue !important;
+}
+.payment-item-line.title{
+    background: #eaeaeb;
+}
+.payment-item-line{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 30px;
+    padding: 0 20px;
+}
+
+.payment-items-all-details{
+    background: #eaeaeb;
+    width: 100%;
+}

@@ -21,7 +21,13 @@ const CARTSUBTOTAL = () => {
             <div className='cart_subtotal'>
                 <div className="cart-subtotal-left">Shipping Charge</div>
                 <div className="cart-subtotal-right">
-                    <PriceFormat price={100} />
+                    Dhaka : <PriceFormat price={50} />
+                </div>
+            </div>
+            <div className='cart_subtotal'>
+                <div className="cart-subtotal-left"></div>
+                <div className="cart-subtotal-right">
+                    Outside Dhaka : <PriceFormat price={100} />
                 </div>
             </div>
             <div className='cart_subtotal'>

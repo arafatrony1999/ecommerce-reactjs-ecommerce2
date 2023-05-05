@@ -1,11 +1,13 @@
 import React from 'react'
+import Dropdown from 'react-bootstrap/Dropdown';
 import ADD_NEW_ADDRESS from '../ADD_NEW_ADDRESS/ADD_NEW_ADDRESS'
 import { useUserContext } from '../../context/UserContext'
+import { BsThreeDotsVertical } from "react-icons/bs";
+import CHECKOUT_BTNS from '../CHECKOUT_BTNS/CHECKOUT_BTNS';
 
 const ADDRESSES = () => {
     const { user, setSelectedAddress, selectedAddress } = useUserContext();
 
-    console.log(user)
     return (
         <div className='addresses'>
             Select Address...
@@ -20,9 +22,18 @@ const ADDRESSES = () => {
                                         {
                                             selectedAddress.id === address.id && <div className="single-address-inner"></div>
                                         }
-                                        
                                     </div>
-                                    <div className="single-address-btn-right"></div>
+                                    <div className="single-address-btn-right">
+                                        <Dropdown>
+                                            <Dropdown.Toggle variant="secondary">
+                                                <BsThreeDotsVertical />
+                                            </Dropdown.Toggle>
+
+                                            <Dropdown.Menu>
+                                                <Dropdown.Item href="#/action-1">EDIT</Dropdown.Item>
+                                            </Dropdown.Menu>
+                                        </Dropdown>
+                                    </div>
                                 </div>
                                 <div className="single-address-container">
                                     <div className="single-address-line">
@@ -57,6 +68,7 @@ const ADDRESSES = () => {
                 }
             </div>
             <ADD_NEW_ADDRESS />
+            <CHECKOUT_BTNS />
         </div>
     )
 }

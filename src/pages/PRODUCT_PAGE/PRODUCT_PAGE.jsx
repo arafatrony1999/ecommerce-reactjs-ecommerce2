@@ -44,6 +44,7 @@ const PRODUCTPAGE = () => {
                 }
             })
             .then((data) => {
+                console.log(data)
                 setItems(data[0])
                 setCatProduct(data[0].catagory_id)
             })
@@ -184,8 +185,8 @@ const PRODUCTPAGE = () => {
                         <div className="qty-count">
                             <button disabled={minQty===1 ? true : false} className='count-btn' onClick={handleDecrement}>-</button>
                                 {minQty}
-                            <button className='count-btn' onClick={handleIncrement}>+</button>
-                            <span className="product-available">({items && items.inventory!==null ? items.inventory.product_quantity : 0} piece available)</span>
+                            <button disabled={minQty===items.item ? true : false} className='count-btn' onClick={handleIncrement}>+</button>
+                            <span className="product-available">({items && items.item===0 ? 'Out of Stock' : `${items.item} piece available`})</span>
                         </div>
                     </div>
 
@@ -322,7 +323,6 @@ const PRODUCTPAGE = () => {
                             )
                         })
                     }
-                    
                 </div>
             </div>
         </div>

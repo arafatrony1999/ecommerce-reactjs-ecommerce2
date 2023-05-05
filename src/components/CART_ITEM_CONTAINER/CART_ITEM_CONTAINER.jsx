@@ -37,7 +37,7 @@ const CARTITEMCONTAINER = () => {
                                         </span>
                                         <span className='cart-name'>
                                             <Link to={`/product/product_id=${cart.products.id}`} >
-                                                {cart.products.name.slice(0,30)}...
+                                                {cart.products.name}
                                             </Link>
                                         </span>
                                     </Td>

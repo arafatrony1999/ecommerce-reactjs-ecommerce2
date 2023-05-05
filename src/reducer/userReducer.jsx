@@ -75,6 +75,27 @@ const UserReducer = (state, action) => {
         }
     }
 
+    if(action.type === 'AGREE_CHANGE'){
+        return{
+            ...state,
+            agreeCheck: action.payload === false ? true : false
+        }
+    }
+
+    if(action.type === 'SELECT_PAYMENT_METHOD'){
+        return{
+            ...state,
+            paymentMethod: action.payload
+        }
+    }
+
+    if(action.type === 'COUPON_FOUND'){
+        return{
+            ...state,
+            coupon: action.payload
+        }
+    }
+
     return state;
 }
 
