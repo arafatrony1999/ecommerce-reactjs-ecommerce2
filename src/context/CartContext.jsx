@@ -18,6 +18,8 @@ const initialState = {
     // cartAdd: null,
     total_item: 0,
     sub_total: 0,
+    txn: '',
+    senderNumber: '',
     noUser: false,
 }
 
@@ -27,6 +29,10 @@ const CartProvider = ({ children }) => {
 
     const { user } = useUserContext();
     const { products } = useProductContext();
+
+    const sendMoneyInfo = (txn, senderNumber) => {
+        dispatch({type: 'SEND_MONEY_INFO', payload: {txn, senderNumber}})
+    }
 
     const addToCart = (e, qty, product) => {
         e.preventDefault();
@@ -84,7 +90,7 @@ const CartProvider = ({ children }) => {
                         axios.post(url, formData)
                         .then((res) => {
                             if(res.data === 1){
-                                dispatch({type: "ADD_TO_CART_SUCCESSFULL", payload: res.data})
+                                dispatch({type: "ADD_TO_CART_SUCCESSFUL", payload: res.data})
                             }else{
                                 dispatch({type: "API_ERROR"})
                             }
@@ -93,7 +99,7 @@ const CartProvider = ({ children }) => {
                         dispatch({type: "API_ERROR"})
                     }
             
-                    // dispatch({type: "ADD_TO_CART_SUCCESSFULL"})
+                    // dispatch({type: "ADD_TO_CART_SUCCESSFUL"})
                 }
             }
         }
@@ -118,7 +124,7 @@ const CartProvider = ({ children }) => {
                 axios.post(url, formData)
                 .then((res) => {
                     if(res.data === 1){
-                        dispatch({type: "REMOVE_FROM_CART_SUCCESSFULL", payload: res.data})
+                        dispatch({type: "REMOVE_FROM_CART_SUCCESSFUL", payload: res.data})
                     }else{
                         dispatch({type: "API_ERROR"})
                     }
@@ -128,13 +134,13 @@ const CartProvider = ({ children }) => {
                 dispatch({type: "API_ERROR"})
             }
     
-            dispatch({type: "REMOVE_FROM_CART_SUCCESSFULL"})
+            dispatch({type: "REMOVE_FROM_CART_SUCCESSFUL"})
         }
 
     }, [state.unsetCartItem, user]);
 
     return(
-        <CartContext.Provider value={{...state, addToCart, removeFromCart}} >
+        <CartContext.Provider value={{...state, addToCart, removeFromCart, sendMoneyInfo}} >
             {children}
         </CartContext.Provider>
     )

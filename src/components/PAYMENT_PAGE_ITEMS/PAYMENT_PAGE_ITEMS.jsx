@@ -6,12 +6,12 @@ import { Link } from 'react-router-dom'
 
 const PAYMENT_PAGE_ITEMS = () => {
     const { cart, sub_total } = useCartContext()
-    const { selectedAddress, agreeChange } = useUserContext()
+    const { selectedAddress, agreeChange, coupon } = useUserContext()
 
     return (
         <>
             <div className='addresses'>
-                <div className="payment-itmes">
+                <div className="payment-items">
                     <div className="payment-item-line title">
                         <div className="payment-item-left">
                             PRODUCT
@@ -43,14 +43,37 @@ const PAYMENT_PAGE_ITEMS = () => {
                 </div>
 
                 <div className="payment-items-all-details">
-                    <div className="payment-item-line">
-                        <div className="payment-item-left">
-                            Subtotal
-                        </div>
-                        <div className="payment-item-right">
-                            <PriceFormat price={sub_total} />
-                        </div>
-                    </div>
+                    {
+                        Object.keys(coupon).length === 0 ?
+                        
+                        <div className="payment-item-line">
+                            <div className="payment-item-left">
+                                Subtotal
+                            </div>
+                            <div className="payment-item-right">
+                                <PriceFormat price={sub_total} />
+                            </div>
+                        </div> :
+                        <>
+                            <div className="payment-item-line">
+                                <div className="payment-item-left">
+                                    Subtotal
+                                </div>
+                                <div className="payment-item-right">
+                                    <del>
+                                        <PriceFormat price={sub_total} />
+                                    </del>
+                                </div>
+                            </div>
+                            
+                            <div className="payment-item-line">
+                                <div className="payment-item-left"></div>
+                                <div className="payment-item-right">
+                                    <PriceFormat price={sub_total - (sub_total * coupon.discount/100)} />
+                                </div>
+                            </div>
+                        </>
+                    }
                     <div className="payment-item-line">
                         <div className="payment-item-left">
                             Tax
@@ -67,14 +90,25 @@ const PAYMENT_PAGE_ITEMS = () => {
                             <PriceFormat price={selectedAddress === 'Dhaka' ? 50 : 100} />
                         </div>
                     </div>
-                    <div className="payment-item-line">
-                        <div className="payment-item-left">
-                            TOTAL
+                    {
+                        Object.keys(coupon).length === 0 ?
+                        <div className="payment-item-line">
+                            <div className="payment-item-left">
+                                TOTAL
+                            </div>
+                            <div className="payment-item-right">
+                                <PriceFormat price={sub_total + (selectedAddress === 'Dhaka' ? 50 : 100)} />
+                            </div>
+                        </div> :
+                        <div className="payment-item-line">
+                            <div className="payment-item-left">
+                                TOTAL
+                            </div>
+                            <div className="payment-item-right">
+                                <PriceFormat price={sub_total - (sub_total * coupon.discount/100) + (selectedAddress === 'Dhaka' ? 50 : 100)} />
+                            </div>
                         </div>
-                        <div className="payment-item-right">
-                            <PriceFormat price={sub_total + (selectedAddress === 'Dhaka' ? 50 : 100)} />
-                        </div>
-                    </div>
+                    }
                 </div>
             </div>
 

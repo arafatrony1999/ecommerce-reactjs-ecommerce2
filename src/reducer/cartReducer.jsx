@@ -38,7 +38,7 @@ const CartReducer = (state, action) => {
         }
     }
 
-    if(action.type === "ADD_TO_CART_SUCCESSFULL"){
+    if(action.type === "ADD_TO_CART_SUCCESSFUL"){
         return{
             ...state,
             setCartItem: {},
@@ -48,7 +48,7 @@ const CartReducer = (state, action) => {
         }
     }
 
-    if(action.type === "REMOVE_FROM_CART_SUCCESSFULL"){
+    if(action.type === "REMOVE_FROM_CART_SUCCESSFUL"){
         return{
             ...state,
             unsetCartItem: {},
@@ -67,30 +67,37 @@ const CartReducer = (state, action) => {
                     return e1.id === element.products.id
                 })
             })
-            let marged = carts.map(function(value, index){
+            let merged = carts.map(function(value, index){
                 var newValue = value;
                 newValue.product_details = cartList[index]
                 return newValue;
             });
 
-            let multifly = marged.map((a) => {
+            let multiply = merged.map((a) => {
                 return(
                     a.product_details.offers !== 0 ? 
                     (a.products.price - a.products.price * (a.product_details.discount.discount_percent)/100) * a.quantity :
                     (a.products.price * a.quantity)
                 )
             });
-            let sum = multifly.reduce((a, b) => a + b, 0)
+            let sum = multiply.reduce((a, b) => a + b, 0)
 
             return{
                 ...state,
-                cart: marged,
+                cart: merged,
                 total_item: action.payload.carts.length,
                 sub_total: sum,
             }
         }
+    }
 
-
+    if(action.type === 'SEND_MONEY_INFO'){
+        const { txn, senderNumber } = action.payload;
+        return{
+            ...state,
+            txn: txn,
+            senderNumber: senderNumber
+        }
     }
 
     return state;

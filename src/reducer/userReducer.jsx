@@ -3,7 +3,7 @@ const UserReducer = (state, action) => {
     if(action.type === "USER_DATA"){
         return{
             ...state,
-            userUpdateSuccessfull: false,
+            userUpdateSuccessful: false,
             userUpdateFailed: false,
             correct: false,
             incorrect: false,
@@ -21,20 +21,20 @@ const UserReducer = (state, action) => {
     if(action.type === "UPDATE_ALL"){
         return{
             ...state,
-            userUpdateSuccessfull: false,
+            userUpdateSuccessful: false,
             userUpdateFailed: false,
             correct: false,
             incorrect: false,
         }
     }
 
-    if(action.type === "USER_UPDATE_SUCCESSFULL"){
+    if(action.type === "USER_UPDATE_SUCCESSFUL"){
         return{
             ...state,
             correct: false,
             incorrect: false,
             userUpdateFailed: false,
-            userUpdateSuccessfull: true,
+            userUpdateSuccessful: true,
         }
     }
 
@@ -43,7 +43,7 @@ const UserReducer = (state, action) => {
             ...state,
             correct: false,
             incorrect: false,
-            userUpdateSuccessfull: false,
+            userUpdateSuccessful: false,
             userUpdateFailed: true,
         }
     }
@@ -51,17 +51,17 @@ const UserReducer = (state, action) => {
     if(action.type === "INCORRECT_PASSWORD"){
         return{
             ...state,
-            userUpdateSuccessfull: false,
+            userUpdateSuccessful: false,
             userUpdateFailed: false,
             correct: false,
             incorrect: true,
         }
     }
 
-    if(action.type === "PASSWORD_UPDATE_SUCCESSFULL") {
+    if(action.type === "PASSWORD_UPDATE_SUCCESSFUL") {
         return{
             ...state,
-            userUpdateSuccessfull: false,
+            userUpdateSuccessful: false,
             userUpdateFailed: false,
             incorrect: false,
             correct: true,
@@ -92,7 +92,16 @@ const UserReducer = (state, action) => {
     if(action.type === 'COUPON_FOUND'){
         return{
             ...state,
+            noCoupon: false,
             coupon: action.payload
+        }
+    }
+
+    if(action.type === 'NO_COUPON'){
+        return{
+            ...state,
+            noCoupon: true,
+            coupon: {}
         }
     }
 

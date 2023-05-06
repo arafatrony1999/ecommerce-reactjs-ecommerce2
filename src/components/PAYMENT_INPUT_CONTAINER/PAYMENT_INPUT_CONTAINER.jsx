@@ -2,10 +2,32 @@ import Form from 'react-bootstrap/Form';
 import { useUserContext } from '../../context/UserContext';
 import { useCartContext } from '../../context/CartContext';
 import PriceFormat from '../../helper/PriceFormat'
+import { useState } from 'react';
+import { toast } from 'react-toastify';
 
 const PAYMENT_INPUT_CONTAINER = () => {
-    const { paymentMethod, selectedAddress } = useUserContext()
-    const { sub_total } = useCartContext()
+    const [txn, setTxn] = useState('')
+    const [senderNumber, setSenderNumber] = useState('')
+    
+    const { paymentMethod, selectedAddress, coupon } = useUserContext()
+    const { sub_total, sendMoneyInfo } = useCartContext()
+
+    const onSubmit = (e) => {
+        e.preventDefault()
+        sendMoneyInfo(txn, senderNumber)
+        toast.success('Your record has been recorder! We will verify those information and inform you.', {
+            toastId: 'success1',
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+        })
+    }
+
     return (
         <div className='payment-input-container my-2'>
             <div className="payment-details-line">
@@ -24,33 +46,47 @@ const PAYMENT_INPUT_CONTAINER = () => {
                 </div>
             </div>
             <div className="payment-details-line">
-                <div className="payment-line-left">Total Ammount</div>
+                <div className="payment-line-left">Total Amount</div>
                 <div className="payment-line-middle">:</div>
                 <div style={{color: 'green', fontWeight: 'bold'}} className="payment-line-right">
                     {
                         paymentMethod.id === 'cod' ?
                         <PriceFormat price={selectedAddress.district === 'Dhaka' ? 50 : 100} /> :
-                        <PriceFormat price={sub_total + (selectedAddress.district === 'Dhaka' ? 50 : 100)} />
+                        <>
+                            {
+                                Object.keys(coupon).length === 0 ?
+                                <PriceFormat price={sub_total + (selectedAddress.district === 'Dhaka' ? 50 : 100)} /> :
+                                <>
+                                    <del><PriceFormat price={sub_total + (selectedAddress.district === 'Dhaka' ? 50 : 100)} /></del> <br />
+                                    <PriceFormat price={sub_total - (sub_total * coupon.discount/100) + (selectedAddress.district === 'Dhaka' ? 50 : 100)} />
+                                </>
+                            }
+                        </>
                     }
                 </div>
             </div>
 
-            
-            <div className="payment-details-line">
-                <div className="payment-line-left">TxnID</div>
-                <div className="payment-line-middle">:</div>
-                <div className="payment-line-right">
-                    <Form.Control type="text" placeholder="Enter TxnID..." />
+            <Form onSubmit={onSubmit}>
+                <div className="payment-details-line">
+                    <div className="payment-line-left">TxnID</div>
+                    <div className="payment-line-middle">:</div>
+                    <div className="payment-line-right">
+                        <Form.Control type="text" onChange={(e) => setTxn(e.target.value)} placeholder="Enter TxnID..." />
+                    </div>
                 </div>
-            </div>
-            
-            <div className="payment-details-line my-2">
-                <div className="payment-line-left">Sender Mobile Number</div>
-                <div className="payment-line-middle">:</div>
-                <div className="payment-line-right">
-                    <Form.Control type="text" placeholder="Sender Mobile Number" />
+                
+                <div className="payment-details-line my-2">
+                    <div className="payment-line-left">Sender Mobile Number</div>
+                    <div className="payment-line-middle">:</div>
+                    <div className="payment-line-right">
+                        <Form.Control type="text" onChange={(e) => setSenderNumber(e.target.value)} placeholder="Sender Mobile Number" />
+                    </div>
                 </div>
-            </div>
+
+                <div className="col-md-12 text-center">
+                    <button type='submit' className='btn btn-info my-2'>Submit</button>
+                </div>
+            </Form>
         </div>
     )
 }

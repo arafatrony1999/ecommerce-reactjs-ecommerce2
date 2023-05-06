@@ -6,14 +6,18 @@ const UserContext = createContext();
 
 const initialState = {
     isLoading: false,
-    userUpdateSuccessfull: false,
+    userUpdateSuccessful: false,
     userUpdateFailed: false,
     incorrect: false,
     correct: false,
     selectedAddress: {},
     agreeCheck: false,
-    paymentMethod: {},
+    paymentMethod: {
+        id: 'cod',
+        title: 'Cash On Delivery'
+    },
     coupon: {},
+    noCoupon: false,
     user: []
 }
 
@@ -27,13 +31,12 @@ const UserProvider = ({ children }) => {
 
         axios.post('http://127.0.0.1:8000/api/checkCoupon', formData)
         .then((res) => {
-            console.log(res)
             if(res.data.status === 400){
-                dispatch({type: 'COUPON_FOUND', payload: res.data})
+                dispatch({type: 'COUPON_FOUND', payload: res.data.data})
             }else if(res.data.status === 401){
-                alert('no coupon')
+                dispatch({type: 'NO_COUPON'})
             }else{
-                throw Error('aljdfas')
+                throw Error('Server not responding. Try again later')
             }
         })
         .catch((error) => {
@@ -70,7 +73,7 @@ const UserProvider = ({ children }) => {
         axios.post(url, formData)
         .then((res) => {
             if(res.data === 1){
-                dispatch({type: "USER_UPDATE_SUCCESSFULL"})
+                dispatch({type: "USER_UPDATE_SUCCESSFUL"})
             }else{
                 dispatch({type: "USER_NOT_UPDATE"})
             }
@@ -96,7 +99,7 @@ const UserProvider = ({ children }) => {
             }else{
                 localStorage.removeItem('auth')
                 localStorage.setItem('auth', JSON.stringify(res.data))
-                dispatch({type: "PASSWORD_UPDATE_SUCCESSFULL"})
+                dispatch({type: "PASSWORD_UPDATE_SUCCESSFUL"})
                 getUser()
             }
         })
@@ -130,7 +133,7 @@ const UserProvider = ({ children }) => {
 
     useEffect(() => {
         getUser()
-    }, [state.userUpdateSuccessfull, state.incorrect, state.correct]);
+    }, [state.userUpdateSuccessful, state.incorrect, state.correct]);
 
     return(
         <UserContext.Provider value={{...state, updateUser, updatePassword, getUser, setSelectedAddress, agreeChange, selectPaymentMethod, onSubmitCoupon }}>
