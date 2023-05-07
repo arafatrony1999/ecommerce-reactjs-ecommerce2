@@ -30,6 +30,27 @@ const CartProvider = ({ children }) => {
     const { user } = useUserContext();
     const { products } = useProductContext();
 
+    const confirmOrder = (addressID, txnID, senderNumber) => {
+        const formData = new FormData()
+        formData.append('userID', user[0].id)
+        formData.append('addressID', addressID)
+        formData.append('txnID', txnID)
+        formData.append('senderNumber', senderNumber)
+        axios.post('http://127.0.0.1:8000/api/confirmOrder', formData)
+        .then((res) => {
+            if(res.data.status === 400){
+
+            }else if(res.data.status === 401){
+
+            }else{
+                throw Error('Server not responding')
+            }
+        })
+        .catch((error) => {
+
+        })
+    }
+
     const sendMoneyInfo = (txn, senderNumber) => {
         dispatch({type: 'SEND_MONEY_INFO', payload: {txn, senderNumber}})
     }
@@ -140,7 +161,7 @@ const CartProvider = ({ children }) => {
     }, [state.unsetCartItem, user]);
 
     return(
-        <CartContext.Provider value={{...state, addToCart, removeFromCart, sendMoneyInfo}} >
+        <CartContext.Provider value={{...state, addToCart, removeFromCart, sendMoneyInfo, confirmOrder}} >
             {children}
         </CartContext.Provider>
     )

@@ -1,10 +1,16 @@
+import React from 'react'
 import { Link } from 'react-router-dom'
 import { useUserContext } from '../../context/UserContext'
 import { useCartContext } from '../../context/CartContext'
 
-const PAYMENT_PAGE_BTNS = () => {
-    const { agreeCheck, selectedAddress } = useUserContext()
-    const { txn, senderNumber } = useCartContext()
+const CONFIRM_PAGE_BTNS = () => {
+    const { selectedAddress } = useUserContext()
+    const { txn, senderNumber, confirmOrder } = useCartContext()
+
+    const handleClick = () => {
+        confirmOrder(selectedAddress.id, txn, senderNumber)
+    }
+
 
     if(Object.keys(selectedAddress).length === 0){
         return(
@@ -22,10 +28,10 @@ const PAYMENT_PAGE_BTNS = () => {
         return (
             <div className='cart-last-btns'>
                 <Link to='/marketplace' className="btn btn-danger">Return to Shop</Link>
-                <Link to='/user/confirm-order' className={agreeCheck ? "btn btn-success" : "btn btn-success disabled"}>Complete Order</Link>
+                <button onClick={handleClick} className="btn btn-success">Confirm Order</button>
             </div>
         )
     }
 }
 
-export default PAYMENT_PAGE_BTNS
+export default CONFIRM_PAGE_BTNS

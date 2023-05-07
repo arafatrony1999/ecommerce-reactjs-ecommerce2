@@ -6,15 +6,15 @@ import { useState } from 'react';
 import { toast } from 'react-toastify';
 
 const PAYMENT_INPUT_CONTAINER = () => {
-    const [txn, setTxn] = useState('')
-    const [senderNumber, setSenderNumber] = useState('')
+    const [txnID, setTxnID] = useState('')
+    const [senderNum, setSenderNum] = useState('')
     
     const { paymentMethod, selectedAddress, coupon } = useUserContext()
-    const { sub_total, sendMoneyInfo } = useCartContext()
+    const { sub_total, sendMoneyInfo, txn, senderNumber } = useCartContext()
 
     const onSubmit = (e) => {
         e.preventDefault()
-        sendMoneyInfo(txn, senderNumber)
+        sendMoneyInfo(txnID, senderNum)
         toast.success('Your record has been recorder! We will verify those information and inform you.', {
             toastId: 'success1',
             position: "top-right",
@@ -71,7 +71,7 @@ const PAYMENT_INPUT_CONTAINER = () => {
                     <div className="payment-line-left">TxnID</div>
                     <div className="payment-line-middle">:</div>
                     <div className="payment-line-right">
-                        <Form.Control type="text" onChange={(e) => setTxn(e.target.value)} placeholder="Enter TxnID..." />
+                        <Form.Control defaultValue={txn} type="text" onChange={(e) => setTxnID(e.target.value)} placeholder="Enter TxnID..." required />
                     </div>
                 </div>
                 
@@ -79,7 +79,7 @@ const PAYMENT_INPUT_CONTAINER = () => {
                     <div className="payment-line-left">Sender Mobile Number</div>
                     <div className="payment-line-middle">:</div>
                     <div className="payment-line-right">
-                        <Form.Control type="text" onChange={(e) => setSenderNumber(e.target.value)} placeholder="Sender Mobile Number" />
+                        <Form.Control defaultValue={senderNumber} type="text" onChange={(e) => setSenderNum(e.target.value)} placeholder="Sender Mobile Number" required />
                     </div>
                 </div>
 

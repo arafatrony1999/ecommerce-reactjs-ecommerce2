@@ -6,6 +6,7 @@ import PAYMENT_INPUT_CONTAINER from '../../components/PAYMENT_INPUT_CONTAINER/PA
 import COUPON_CONTAINER from '../../components/COUPON_CONTAINER/COUPON_CONTAINER'
 import PAYMENT_PAGE_ITEMS from '../../components/PAYMENT_PAGE_ITEMS/PAYMENT_PAGE_ITEMS'
 import PAYMENT_PAGE_BTNS from '../../components/PAYMENT_PAGE_BTNS/PAYMENT_PAGE_BTNS'
+import AGREE_POLICY from '../../components/AGREE_POLICY/AGREE_POLICY'
 
 const PAYMENT_PAGE = () => {
     return (
@@ -16,6 +17,7 @@ const PAYMENT_PAGE = () => {
             <PAYMENT_INPUT_CONTAINER />
             <COUPON_CONTAINER />
             <PAYMENT_PAGE_ITEMS />
+            <AGREE_POLICY />
             <PAYMENT_PAGE_BTNS />
         </div>
     )

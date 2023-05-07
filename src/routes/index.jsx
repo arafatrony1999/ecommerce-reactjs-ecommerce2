@@ -27,6 +27,7 @@ import VERIFICATION_PAGE from '../pages/VERIFICATION_PAGE/VERIFICATION_PAGE';
 import CHECKOUT_PAGE from '../pages/CHECKOUT_PAGE/CHECKOUT_PAGE';
 import DELIVERY_INFO_PAGE from '../pages/DELIVERY_INFO_PAGE/DELIVERY_INFO_PAGE';
 import PAYMENT_PAGE from '../pages/PAYMENT_PAGE/PAYMENT_PAGE';
+import CONFIRM_PAGE from '../pages/CONFIRM_PAGE/CONFIRM_PAGE';
 
 
 const Index = () => {
@@ -196,6 +197,7 @@ const Index = () => {
                     <Route path='checkout' element={<CHECKOUT_PAGE />} ></Route>
                     <Route path='delivery-info' element={<DELIVERY_INFO_PAGE />} ></Route>
                     <Route path='payment-info' element={<PAYMENT_PAGE />} ></Route>
+                    <Route path='confirm-order' element={<CONFIRM_PAGE />} ></Route>
                     <Route path='compare-list' element={<COMPAREPAGE />} ></Route>
                     <Route path='profile' element={<EDITPROFILE  />} ></Route>
                     <Route path='profile/reset-password' element={<RESETPASSWORD  />} ></Route>

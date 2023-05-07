@@ -2,11 +2,10 @@ import React from 'react'
 import { useCartContext } from '../../context/CartContext'
 import PriceFormat from '../../helper/PriceFormat'
 import { useUserContext } from '../../context/UserContext'
-import { Link } from 'react-router-dom'
 
 const PAYMENT_PAGE_ITEMS = () => {
     const { cart, sub_total } = useCartContext()
-    const { selectedAddress, agreeChange, coupon } = useUserContext()
+    const { selectedAddress, coupon } = useUserContext()
 
     return (
         <>
@@ -110,14 +109,6 @@ const PAYMENT_PAGE_ITEMS = () => {
                         </div>
                     }
                 </div>
-            </div>
-
-            
-            <div className="mt-3">
-                <input onChange={agreeChange} type='checkbox' name='agree' />
-                <label className='px-2' htmlFor="agree">
-                    I agree to the <Link className='text-decoration-underline' to="/">terms and conditions</Link>, <Link className='text-decoration-underline' to="/">return policy & privacy policy</Link>
-                </label>
             </div>
         </>
     )
