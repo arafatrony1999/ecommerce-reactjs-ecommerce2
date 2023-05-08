@@ -86,7 +86,7 @@ const PAYMENT_PAGE_ITEMS = () => {
                             Shipping Charge
                         </div>
                         <div className="payment-item-right">
-                            <PriceFormat price={selectedAddress === 'Dhaka' ? 50 : 100} />
+                            <PriceFormat price={selectedAddress.district === 'Dhaka' ? 50 : 100} />
                         </div>
                     </div>
                     {
@@ -96,7 +96,7 @@ const PAYMENT_PAGE_ITEMS = () => {
                                 TOTAL
                             </div>
                             <div className="payment-item-right">
-                                <PriceFormat price={sub_total + (selectedAddress === 'Dhaka' ? 50 : 100)} />
+                                <PriceFormat price={sub_total + (selectedAddress.district === 'Dhaka' ? 50 : 100)} />
                             </div>
                         </div> :
                         <div className="payment-item-line">
@@ -104,7 +104,7 @@ const PAYMENT_PAGE_ITEMS = () => {
                                 TOTAL
                             </div>
                             <div className="payment-item-right">
-                                <PriceFormat price={sub_total - (sub_total * coupon.discount/100) + (selectedAddress === 'Dhaka' ? 50 : 100)} />
+                                <PriceFormat price={sub_total - (sub_total * coupon.discount/100) + (selectedAddress.district === 'Dhaka' ? 50 : 100)} />
                             </div>
                         </div>
                     }

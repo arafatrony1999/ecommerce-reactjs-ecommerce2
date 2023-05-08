@@ -27,17 +27,32 @@ const CartProvider = ({ children }) => {
 
     const [state, dispatch] = useReducer(reducer, initialState);
 
-    const { user } = useUserContext();
+    const { user, coupon, selectedAddress } = useUserContext();
     const { products } = useProductContext();
 
     const confirmOrder = (addressID, txnID, senderNumber) => {
         const formData = new FormData()
+        if(Object.keys(coupon).length === 0) {
+            if(selectedAddress.district === 'Dhaka'){
+                formData.append('total', state.sub_total + 50)
+            }else{
+                formData.append('total', state.sub_total + 100)
+            }
+        }else{
+            if(selectedAddress.district === 'Dhaka'){
+                formData.append('total', state.sub_total - (state.sub_total * coupon.discount/100) + 50)
+            }else{
+                formData.append('total', state.sub_total - (state.sub_total * coupon.discount/100) + 100)
+            }
+        }
         formData.append('userID', user[0].id)
         formData.append('addressID', addressID)
         formData.append('txnID', txnID)
         formData.append('senderNumber', senderNumber)
+        
         axios.post('http://127.0.0.1:8000/api/confirmOrder', formData)
         .then((res) => {
+            console.log(res.data)
             if(res.data.status === 400){
 
             }else if(res.data.status === 401){
