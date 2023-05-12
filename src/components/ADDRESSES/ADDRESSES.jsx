@@ -3,7 +3,6 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import ADD_NEW_ADDRESS from '../ADD_NEW_ADDRESS/ADD_NEW_ADDRESS'
 import { useUserContext } from '../../context/UserContext'
 import { BsThreeDotsVertical } from "react-icons/bs";
-import CHECKOUT_BTNS from '../CHECKOUT_BTNS/CHECKOUT_BTNS';
 
 const ADDRESSES = () => {
     const { user, setSelectedAddress, selectedAddress } = useUserContext();
@@ -68,7 +67,6 @@ const ADDRESSES = () => {
                 }
             </div>
             <ADD_NEW_ADDRESS />
-            <CHECKOUT_BTNS />
         </div>
     )
 }

@@ -28,6 +28,8 @@ import CHECKOUT_PAGE from '../pages/CHECKOUT_PAGE/CHECKOUT_PAGE';
 import DELIVERY_INFO_PAGE from '../pages/DELIVERY_INFO_PAGE/DELIVERY_INFO_PAGE';
 import PAYMENT_PAGE from '../pages/PAYMENT_PAGE/PAYMENT_PAGE';
 import CONFIRM_PAGE from '../pages/CONFIRM_PAGE/CONFIRM_PAGE';
+import ORDER_PAGE from '../pages/ORDER_PAGE/ORDER_PAGE';
+import ORDER_DETAILS_PAGE from '../pages/ORDER_DETAILS_PAGE/ORDER_DETAILS_PAGE';
 
 
 const Index = () => {
@@ -201,6 +203,8 @@ const Index = () => {
                     <Route path='compare-list' element={<COMPAREPAGE />} ></Route>
                     <Route path='profile' element={<EDITPROFILE  />} ></Route>
                     <Route path='profile/reset-password' element={<RESETPASSWORD  />} ></Route>
+                    <Route path='orders' element={<ORDER_PAGE />}></Route>
+                    <Route path='order' element={<ORDER_DETAILS_PAGE />}></Route>
                 </Route>
             </Routes>
 

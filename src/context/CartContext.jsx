@@ -6,8 +6,6 @@ import { useUserContext } from "./UserContext";
 
 const CartContext  = createContext();
 
-const cartAPI = 'http://127.0.0.1:8000/api/getCart';
-
 const initialState = {
     isCartLoading: false,
     cart: [],
@@ -20,6 +18,8 @@ const initialState = {
     sub_total: 0,
     txn: '',
     senderNumber: '',
+    orderPlaceSuccess: false,
+    orderProcess: false,
     noUser: false,
 }
 
@@ -27,7 +27,7 @@ const CartProvider = ({ children }) => {
 
     const [state, dispatch] = useReducer(reducer, initialState);
 
-    const { user, coupon, selectedAddress } = useUserContext();
+    const { user, coupon, selectedAddress, paymentMethod } = useUserContext();
     const { products } = useProductContext();
 
     const confirmOrder = (addressID, txnID, senderNumber) => {
@@ -40,29 +40,28 @@ const CartProvider = ({ children }) => {
             }
         }else{
             if(selectedAddress.district === 'Dhaka'){
-                formData.append('total', state.sub_total - (state.sub_total * coupon.discount/100) + 50)
+                formData.append('total', (state.sub_total - coupon.discount + 50))
             }else{
-                formData.append('total', state.sub_total - (state.sub_total * coupon.discount/100) + 100)
+                formData.append('total', (state.sub_total - coupon.discount) + 100)
             }
         }
         formData.append('userID', user[0].id)
         formData.append('addressID', addressID)
         formData.append('txnID', txnID)
         formData.append('senderNumber', senderNumber)
+        formData.append('paymentMethod', paymentMethod.id)
         
+        dispatch({type: 'ORDER_PLACE_UNSET'})
         axios.post('http://127.0.0.1:8000/api/confirmOrder', formData)
         .then((res) => {
-            console.log(res.data)
             if(res.data.status === 400){
-
-            }else if(res.data.status === 401){
-
+                dispatch({type: 'ORDER_PLACE_SUCCESSFUL'})
             }else{
                 throw Error('Server not responding')
             }
         })
         .catch((error) => {
-
+            dispatch({type: 'ORDER_SERVER_NOT_RESPONDING'})
         })
     }
 
@@ -91,7 +90,6 @@ const CartProvider = ({ children }) => {
             try{
                 const res = await axios.post(url, formData);
                 const carts = await res.data;
-        
                 dispatch({type: "MY_API_DATA", payload: {carts, products}});
             }
             catch(error){
@@ -102,15 +100,7 @@ const CartProvider = ({ children }) => {
 
 
     useEffect(() => {
-        getCartItems(cartAPI)
-        //eslint-disable-next-line
-    }, [user, state.setCartItem, state.unsetCartItem, state.addSuccess, state.removeSuccess])
-
-
-    useEffect(() => {
-        if(Object.keys(state.setCartItem).length === 0){
-
-        }else{
+        if(Object.keys(state.setCartItem).length !== 0){
             let url = 'http://127.0.0.1:8000/api/addToCart';
             const formData = new FormData();
             formData.append('product', state.setCartItem.id)
@@ -139,14 +129,11 @@ const CartProvider = ({ children }) => {
                 }
             }
         }
-
     }, [state.setCartItem, user]);
 
     
     useEffect(() => {
-        if(Object.keys(state.unsetCartItem).length === 0){
-
-        }else{
+        if(Object.keys(state.unsetCartItem).length !== 0){
             let url = 'http://127.0.0.1:8000/api/removeFromCart';
             const formData = new FormData();
             
@@ -170,13 +157,18 @@ const CartProvider = ({ children }) => {
                 dispatch({type: "API_ERROR"})
             }
     
-            dispatch({type: "REMOVE_FROM_CART_SUCCESSFUL"})
+            // dispatch({type: "REMOVE_FROM_CART_SUCCESSFUL"})
         }
-
     }, [state.unsetCartItem, user]);
 
+    
+    useEffect(() => {
+        getCartItems('http://127.0.0.1:8000/api/getCart')
+        //eslint-disable-next-line
+    }, [user, state.setCartItem, state.unsetCartItem, state.addSuccess, state.removeSuccess])
+
     return(
-        <CartContext.Provider value={{...state, addToCart, removeFromCart, sendMoneyInfo, confirmOrder}} >
+        <CartContext.Provider value={{...state, addToCart, removeFromCart, sendMoneyInfo, confirmOrder, getCartItems}} >
             {children}
         </CartContext.Provider>
     )

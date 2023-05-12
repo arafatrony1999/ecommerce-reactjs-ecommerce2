@@ -29,7 +29,7 @@ const COUPON_CONTAINER = () => {
             }
 
             {
-                Object.keys(coupon).length !== 0 && <SUCCESS_MESSAGE successMessage={"Congratulation! You've got "+coupon.discount+"% discount."} />
+                Object.keys(coupon).length !== 0 && <SUCCESS_MESSAGE successMessage={coupon.discount} />
             }
         </div>
     )

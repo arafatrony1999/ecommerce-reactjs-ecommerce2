@@ -44,7 +44,6 @@ const PAYMENT_PAGE_ITEMS = () => {
                 <div className="payment-items-all-details">
                     {
                         Object.keys(coupon).length === 0 ?
-                        
                         <div className="payment-item-line">
                             <div className="payment-item-left">
                                 Subtotal
@@ -68,7 +67,7 @@ const PAYMENT_PAGE_ITEMS = () => {
                             <div className="payment-item-line">
                                 <div className="payment-item-left"></div>
                                 <div className="payment-item-right">
-                                    <PriceFormat price={sub_total - (sub_total * coupon.discount/100)} />
+                                    <PriceFormat price={sub_total - coupon.discount} />
                                 </div>
                             </div>
                         </>
@@ -104,7 +103,7 @@ const PAYMENT_PAGE_ITEMS = () => {
                                 TOTAL
                             </div>
                             <div className="payment-item-right">
-                                <PriceFormat price={sub_total - (sub_total * coupon.discount/100) + (selectedAddress.district === 'Dhaka' ? 50 : 100)} />
+                                <PriceFormat price={sub_total - coupon.discount + (selectedAddress.district === 'Dhaka' ? 50 : 100)} />
                             </div>
                         </div>
                     }

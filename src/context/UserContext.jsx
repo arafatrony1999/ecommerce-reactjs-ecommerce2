@@ -56,27 +56,30 @@ const UserProvider = ({ children }) => {
         dispatch({type: 'AGREE_CHANGE', payload: state.agreeCheck})
     }
 
-    const updateUser = (name, phone, address) => {
+    const updateUser = (name, phone, email, password) => {
 
         dispatch({type: "UPDATE_ALL"})
 
         let url = 'http://127.0.0.1:8000/api/updateUser';
-        const localAuth = localStorage.getItem("auth");
-        const userAuth = JSON.parse(localAuth);
         const formData = new FormData();
 
-        formData.append('auth', userAuth.auth)
         formData.append('name', name)
         formData.append('phone', phone)
-        formData.append('address', address)
+        formData.append('email', email)
+        formData.append('password', password)
 
         axios.post(url, formData)
         .then((res) => {
-            if(res.data === 1){
+            if(res.data.status === 400){
                 dispatch({type: "USER_UPDATE_SUCCESSFUL"})
+            }else if(res.data.status === 401){
+                dispatch({type: "INCORRECT_PASSWORD"})
             }else{
-                dispatch({type: "USER_NOT_UPDATE"})
+                throw Error("You didn't update any data")
             }
+        })
+        .catch((error) => {
+            dispatch({type: "USER_NOT_UPDATE"})
         })
     }
 

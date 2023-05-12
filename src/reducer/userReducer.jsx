@@ -3,10 +3,10 @@ const UserReducer = (state, action) => {
     if(action.type === "USER_DATA"){
         return{
             ...state,
-            userUpdateSuccessful: false,
-            userUpdateFailed: false,
-            correct: false,
-            incorrect: false,
+            // userUpdateSuccessful: false,
+            // userUpdateFailed: false,
+            // correct: false,
+            // incorrect: false,
             user: action.payload
         }
     }
@@ -54,7 +54,7 @@ const UserReducer = (state, action) => {
             userUpdateSuccessful: false,
             userUpdateFailed: false,
             correct: false,
-            incorrect: true,
+            incorrect: true
         }
     }
 

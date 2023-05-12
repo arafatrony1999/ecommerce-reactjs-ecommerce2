@@ -15,6 +15,7 @@ import './assets/css/profile.css';
 import './assets/css/slider.css';
 import './assets/css/cart.css';
 import './assets/css/addresses.css';
+import './assets/css/order.css';
 
 import Index from './routes';
 

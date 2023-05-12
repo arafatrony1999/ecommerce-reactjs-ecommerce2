@@ -44,7 +44,6 @@ const CartReducer = (state, action) => {
             setCartItem: {},
             addSuccess: true,
             removeSuccess: false
-
         }
     }
 
@@ -88,6 +87,13 @@ const CartReducer = (state, action) => {
                 total_item: action.payload.carts.length,
                 sub_total: sum,
             }
+        }else{
+            return{
+                ...state,
+                cart: [],
+                total_item: 0,
+                sub_total: 0
+            }
         }
     }
 
@@ -97,6 +103,33 @@ const CartReducer = (state, action) => {
             ...state,
             txn: txn,
             senderNumber: senderNumber
+        }
+    }
+
+    if(action.type === 'ORDER_PLACE_UNSET'){
+        return{
+            ...state,
+            orderProcess: true,
+            orderPlaceSuccess: false
+        }
+    }
+
+    if(action.type === 'ORDER_PLACE_SUCCESSFUL'){
+        return{
+            ...state,
+            orderPlaceSuccess: true,
+            orderProcess: false,
+            cart: [],
+            total_item: 0,
+            sub_total: 0,
+        }
+    }
+
+    if(action.type === 'ORDER_SERVER_NOT_RESPONDING'){
+        return{
+            ...state,
+            orderPlaceSuccess: false,
+            orderProcess: false
         }
     }
 

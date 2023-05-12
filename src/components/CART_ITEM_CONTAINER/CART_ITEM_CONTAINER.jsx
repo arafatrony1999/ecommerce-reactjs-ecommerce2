@@ -1,4 +1,3 @@
-import React from 'react';
 import { Table, Thead, Tbody, Tr, Th, Td } from 'react-super-responsive-table';
 import PriceFormat from '../../helper/PriceFormat';
 import { BsTrash } from "react-icons/bs";
@@ -9,7 +8,6 @@ import NOITEMMESSAGE from '../NO_ITEM_MESSAGE/NO_ITEM_MESSAGE';
 
 const CARTITEMCONTAINER = () => {
     const { cart, addToCart, removeFromCart } = useCartContext();
-
 
     return (
         <div className='cart-item-container'>
@@ -27,7 +25,7 @@ const CARTITEMCONTAINER = () => {
                 </Thead>
                 <Tbody>
                     {
-                        cart.length === 0 ? <NOITEMMESSAGE totalCol={6} noItemMessage="Your Cart is empty! 😓" /> :
+                        cart.length === 0 ? <NOITEMMESSAGE totalCol={7} noItemMessage="Your Cart is empty! 😓" /> :
                         cart.map((cart) => {
                             return(
                                 <Tr key={cart.id}>

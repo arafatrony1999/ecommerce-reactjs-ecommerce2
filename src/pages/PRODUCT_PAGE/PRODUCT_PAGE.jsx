@@ -44,7 +44,6 @@ const PRODUCTPAGE = () => {
                 }
             })
             .then((data) => {
-                console.log(data)
                 setItems(data[0])
                 setCatProduct(data[0].catagory_id)
             })
